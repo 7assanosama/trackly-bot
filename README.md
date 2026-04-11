@@ -45,7 +45,16 @@ Whether you're tracking product prices, job postings, or competitor updates — 
 
 ---
 
-## 📦 Installation
+## � قائمة الأوامر
+
+- `/help` — عرض قائمة مفصلة بكيفية استخدام البوت.
+- `/list` — استعراض الروابط المراقبة حاليا لكل مستخدم.
+- `/delete <الرابط>` — حذف رابط محدد من المراقبة.
+- استخدام أزرار القائمة داخل المحادثة هو الأسهل والأسرع للتحكم في البوت.
+
+---
+
+## �📦 Installation
 
 ```bash
 git clone https://github.com/yourusername/trackly-bot.git

@@ -26,6 +26,18 @@ def get_links():
     return cursor.fetchall()
 
 
+def get_user_links(user_id):
+    cursor.execute("SELECT * FROM links WHERE user_id=?", (user_id,))
+    return cursor.fetchall()
+
+
+def delete_link(user_id, url):
+    cursor.execute("DELETE FROM links WHERE user_id=? AND url=?", (user_id, url))
+    deleted = cursor.rowcount
+    conn.commit()
+    return deleted > 0
+
+
 def update_content(link_id, content):
     cursor.execute("UPDATE links SET last_content=? WHERE id=?",
                    (content, link_id))
