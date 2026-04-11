@@ -1,9 +1,9 @@
-import time
+import asyncio
 from database import get_links, update_content
 from utils import fetch_content
 from config import CHECK_INTERVAL
 
-def start_monitor(bot):
+async def start_monitor(bot):
     while True:
         links = get_links()
 
@@ -15,9 +15,11 @@ def start_monitor(bot):
                 continue
 
             if old_content and new_content != old_content:
-                bot.send_message(chat_id=user_id,
-                                 text=f"🚨 الموقع اتغير:\n{url}")
+                await bot.send_message(
+                    chat_id=user_id,
+                    text=f"🚨 الموقع اتغير:\n{url}"
+                )
 
                 update_content(link_id, new_content)
 
-        time.sleep(CHECK_INTERVAL)
+        await asyncio.sleep(CHECK_INTERVAL)
