@@ -27,8 +27,7 @@ WEBHOOK_URL = f"{BASE_URL}{WEBHOOK_PATH}"
 application = ApplicationBuilder().token(BOT_TOKEN).build()
 
 
-async def post_init(app):
-    asyncio.create_task(start_monitor(app))
+
 
 
 # ================= WEBHOOK HANDLER =================
@@ -45,6 +44,9 @@ async def webhook_handler(request):
 # ================= MAIN =================
 async def main():
     await application.initialize()
+    
+    # Start monitor task directly
+    asyncio.create_task(start_monitor(application))
 
     await application.bot.delete_webhook(drop_pending_updates=True)
     await application.bot.set_webhook(url=WEBHOOK_URL)
@@ -70,7 +72,6 @@ if __name__ == "__main__":
     application = (
         ApplicationBuilder()
         .token(BOT_TOKEN)
-        .post_init(post_init)
         .build()
     )
 
