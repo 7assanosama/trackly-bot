@@ -1,0 +1,35 @@
+# ================= LANG SYSTEM =================
+TEXTS = {
+    "ar": {
+        "menu": "مرحبا بك في Trackly Bot 🚀",
+        "add_link": "➕ إضافة رابط",
+        "list_links": "📁 عرض الروابط",
+        "delete_link": "🗑️ حذف رابط",
+        "help": "ℹ️ مساعدة",
+        "send_link": "ابعت الرابط:",
+        "invalid_url": "❌ رابط غير صالح",
+        "added": "✅ تم الإضافة",
+        "deleted": "تم الحذف",
+        "no_links": "لا يوجد روابط",
+        "links_title": "📁 روابطك:",
+        "cancel": "تم الإلغاء",
+        "lang": "🌐 تغيير اللغة",
+        "choose_lang": "اختر اللغة:",
+    },
+    "en": {
+        "menu": "Welcome to Trackly Bot 🚀",
+        "add_link": "➕ Add link",
+        "list_links": "📁 My links",
+        "delete_link": "🗑️ Delete link",
+        "help": "ℹ️ Help",
+        "send_link": "Send the link:",
+        "invalid_url": "❌ Invalid URL",
+        "added": "✅ Added successfully",
+        "deleted": "Deleted",
+        "no_links": "No links found",
+        "links_title": "📁 Your links:",
+        "cancel": "Cancelled",
+        "lang": "🌐 Language",
+        "choose_lang": "Choose language:",
+    }
+}
