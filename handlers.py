@@ -43,7 +43,8 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     lang = get_lang(update, context)
-    await update.message.reply_text(TEXTS[lang]["help"], reply_markup=build_menu(lang))
+    msg = TEXTS[lang].get("help_message", TEXTS[lang]["help"])
+    await update.message.reply_text(msg, reply_markup=build_menu(lang))
 
 
 # ================= LANGUAGE =================

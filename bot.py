@@ -30,7 +30,7 @@ application = ApplicationBuilder().token(BOT_TOKEN).build()
 
 # ================= MONITOR =================
 async def post_init(app):
-    asyncio.create_task(start_monitor(app.bot))
+    asyncio.create_task(start_monitor(app))
 
 
 # ================= WEBHOOK =================

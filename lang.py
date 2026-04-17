@@ -6,6 +6,7 @@ TEXTS = {
         "list_links": "📁 عرض الروابط",
         "delete_link": "🗑️ حذف رابط",
         "help": "ℹ️ مساعدة",
+        "help_message": "للتواصل والدعم:\n✉️ البريد الإلكتروني: 7assanosama@gmail.com\n📞 واتساب: https://wa.me/201029231051\n✈️ تيليجرام: @7assanosama",
         "send_link": "ابعت الرابط:",
         "invalid_url": "❌ رابط غير صالح",
         "added": "✅ تم الإضافة",
@@ -15,6 +16,10 @@ TEXTS = {
         "cancel": "تم الإلغاء",
         "lang": "🌐 تغيير اللغة",
         "choose_lang": "اختر اللغة:",
+        "diff_before": "قبل",
+        "diff_after": "بعد",
+        "diff_truncated": "\n...\n(مختصر)",
+        "site_changed": "🚨 الموقع اتغير:\n{url}\n\n📝 التغيير:\n```\n{diff_text}\n```",
     },
     "en": {
         "menu": "Welcome to Trackly Bot 🚀",
@@ -22,6 +27,7 @@ TEXTS = {
         "list_links": "📁 My links",
         "delete_link": "🗑️ Delete link",
         "help": "ℹ️ Help",
+        "help_message": "For contact and support:\n✉️ Email: 7assanosama@gmail.com\n📞 WhatsApp: https://wa.me/201029231051\n✈️ Telegram: @7assanosama",
         "send_link": "Send the link:",
         "invalid_url": "❌ Invalid URL",
         "added": "✅ Added successfully",
@@ -31,5 +37,9 @@ TEXTS = {
         "cancel": "Cancelled",
         "lang": "🌐 Language",
         "choose_lang": "Choose language:",
+        "diff_before": "Before",
+        "diff_after": "After",
+        "diff_truncated": "\n...\n(truncated)",
+        "site_changed": "🚨 Site changed:\n{url}\n\n📝 Changes:\n```\n{diff_text}\n```",
     }
 }
