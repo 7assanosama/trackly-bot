@@ -13,7 +13,7 @@ import os
 from config import BOT_TOKEN
 from monitor import start_monitor
 from handlers import (
-    start, help_command, change_lang, set_lang,
+    start, help_command, change_lang, set_lang, plans_command,
     prompt_add_link, receive_link, prompt_delete_link, receive_delete,
     list_links, cancel, ADD_LINK, DELETE_LINK
 )
@@ -78,6 +78,7 @@ if __name__ == "__main__":
     application.add_handler(MessageHandler(filters.Regex("^(🌐 تغيير اللغة|🌐 Language)$"), change_lang))
     application.add_handler(MessageHandler(filters.Regex("^(🇸🇦 العربية|🇬🇧 English)$"), set_lang))
     application.add_handler(MessageHandler(filters.Regex("^(ℹ️ مساعدة|ℹ️ Help)$"), help_command))
+    application.add_handler(MessageHandler(filters.Regex("^(💎 خطط التسعير|💎 Pricing Plans)$"), plans_command))
 
     conv = ConversationHandler(
         entry_points=[

@@ -12,6 +12,13 @@ CREATE TABLE IF NOT EXISTS links (
 )
 """)
 
+cursor.execute("""
+CREATE TABLE IF NOT EXISTS users (
+    user_id INTEGER PRIMARY KEY,
+    plan TEXT DEFAULT 'free'
+)
+""")
+
 conn.commit()
 
 
@@ -42,3 +49,25 @@ def update_content(link_id, content):
     cursor.execute("UPDATE links SET last_content=? WHERE id=?",
                    (content, link_id))
     conn.commit()
+
+
+def get_user_plan(user_id):
+    cursor.execute("SELECT plan FROM users WHERE user_id=?", (user_id,))
+    row = cursor.fetchone()
+    if row:
+        return row[0]
+    else:
+        cursor.execute("INSERT INTO users (user_id, plan) VALUES (?, 'free')", (user_id,))
+        conn.commit()
+        return 'free'
+
+
+def update_user_plan(user_id, plan):
+    get_user_plan(user_id) # ensure user exists before updating
+    cursor.execute("UPDATE users SET plan=? WHERE user_id=?", (plan, user_id))
+    conn.commit()
+
+
+def get_user_link_count(user_id):
+    cursor.execute("SELECT COUNT(*) FROM links WHERE user_id=?", (user_id,))
+    return cursor.fetchone()[0]

@@ -1,7 +1,7 @@
 from telegram import Update, ReplyKeyboardMarkup, ReplyKeyboardRemove, KeyboardButton
 from telegram.ext import ContextTypes, ConversationHandler
 
-from database import add_link, delete_link, get_user_links
+from database import add_link, delete_link, get_user_links, get_user_plan, get_user_link_count
 from utils import fetch_content
 from lang import TEXTS
 
@@ -27,7 +27,8 @@ def build_menu(lang: str):
         [
             [KeyboardButton(TEXTS[lang]["add_link"])],
             [KeyboardButton(TEXTS[lang]["list_links"]), KeyboardButton(TEXTS[lang]["delete_link"])],
-            [KeyboardButton(TEXTS[lang]["lang"]), KeyboardButton(TEXTS[lang]["help"])],
+            [KeyboardButton(TEXTS[lang]["lang"]), KeyboardButton(TEXTS[lang]["plans"])],
+            [KeyboardButton(TEXTS[lang]["help"])],
         ],
         resize_keyboard=True,
     )
@@ -44,7 +45,12 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     lang = get_lang(update, context)
     msg = TEXTS[lang].get("help_message", TEXTS[lang]["help"])
-    await update.message.reply_text(msg, reply_markup=build_menu(lang))
+    await update.message.reply_text(msg, reply_markup=build_menu(lang), parse_mode="Markdown")
+
+
+async def plans_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    lang = get_lang(update, context)
+    await update.message.reply_text(TEXTS[lang]["plans_info"], reply_markup=build_menu(lang), parse_mode="Markdown")
 
 
 # ================= LANGUAGE =================
@@ -78,7 +84,20 @@ async def set_lang(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 # ================= LINKS =================
 async def prompt_add_link(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    user_id = update.effective_chat.id
     lang = get_lang(update, context)
+
+    # Check Plan Limit
+    user_plan = get_user_plan(user_id)
+    links_count = get_user_link_count(user_id)
+    
+    limits = {"free": 1, "basic": 10}
+    limit = limits.get(user_plan)
+
+    if limit is not None and links_count >= limit:
+        await update.message.reply_text(TEXTS[lang]["limit_reached"], reply_markup=build_menu(lang))
+        return ConversationHandler.END
+
     await update.message.reply_text(TEXTS[lang]["send_link"], reply_markup=ReplyKeyboardRemove())
     return ADD_LINK
 
