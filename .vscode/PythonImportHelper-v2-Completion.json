@@ -1,0 +1,384 @@
+[
+    {
+        "label": "Update",
+        "importPath": "telegram",
+        "description": "telegram",
+        "isExtraImport": true,
+        "detail": "telegram",
+        "documentation": {}
+    },
+    {
+        "label": "ReplyKeyboardMarkup",
+        "importPath": "telegram",
+        "description": "telegram",
+        "isExtraImport": true,
+        "detail": "telegram",
+        "documentation": {}
+    },
+    {
+        "label": "ReplyKeyboardRemove",
+        "importPath": "telegram",
+        "description": "telegram",
+        "isExtraImport": true,
+        "detail": "telegram",
+        "documentation": {}
+    },
+    {
+        "label": "KeyboardButton",
+        "importPath": "telegram",
+        "description": "telegram",
+        "isExtraImport": true,
+        "detail": "telegram",
+        "documentation": {}
+    },
+    {
+        "label": "ApplicationBuilder",
+        "importPath": "telegram.ext",
+        "description": "telegram.ext",
+        "isExtraImport": true,
+        "detail": "telegram.ext",
+        "documentation": {}
+    },
+    {
+        "label": "CommandHandler",
+        "importPath": "telegram.ext",
+        "description": "telegram.ext",
+        "isExtraImport": true,
+        "detail": "telegram.ext",
+        "documentation": {}
+    },
+    {
+        "label": "MessageHandler",
+        "importPath": "telegram.ext",
+        "description": "telegram.ext",
+        "isExtraImport": true,
+        "detail": "telegram.ext",
+        "documentation": {}
+    },
+    {
+        "label": "filters",
+        "importPath": "telegram.ext",
+        "description": "telegram.ext",
+        "isExtraImport": true,
+        "detail": "telegram.ext",
+        "documentation": {}
+    },
+    {
+        "label": "ContextTypes",
+        "importPath": "telegram.ext",
+        "description": "telegram.ext",
+        "isExtraImport": true,
+        "detail": "telegram.ext",
+        "documentation": {}
+    },
+    {
+        "label": "ConversationHandler",
+        "importPath": "telegram.ext",
+        "description": "telegram.ext",
+        "isExtraImport": true,
+        "detail": "telegram.ext",
+        "documentation": {}
+    },
+    {
+        "label": "web",
+        "importPath": "aiohttp",
+        "description": "aiohttp",
+        "isExtraImport": true,
+        "detail": "aiohttp",
+        "documentation": {}
+    },
+    {
+        "label": "asyncio",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "asyncio",
+        "description": "asyncio",
+        "detail": "asyncio",
+        "documentation": {}
+    },
+    {
+        "label": "os",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "os",
+        "description": "os",
+        "detail": "os",
+        "documentation": {}
+    },
+    {
+        "label": "BOT_TOKEN",
+        "importPath": "config",
+        "description": "config",
+        "isExtraImport": true,
+        "detail": "config",
+        "documentation": {}
+    },
+    {
+        "label": "CHECK_INTERVAL",
+        "importPath": "config",
+        "description": "config",
+        "isExtraImport": true,
+        "detail": "config",
+        "documentation": {}
+    },
+    {
+        "label": "add_link",
+        "importPath": "database",
+        "description": "database",
+        "isExtraImport": true,
+        "detail": "database",
+        "documentation": {}
+    },
+    {
+        "label": "delete_link",
+        "importPath": "database",
+        "description": "database",
+        "isExtraImport": true,
+        "detail": "database",
+        "documentation": {}
+    },
+    {
+        "label": "get_user_links",
+        "importPath": "database",
+        "description": "database",
+        "isExtraImport": true,
+        "detail": "database",
+        "documentation": {}
+    },
+    {
+        "label": "get_links",
+        "importPath": "database",
+        "description": "database",
+        "isExtraImport": true,
+        "detail": "database",
+        "documentation": {}
+    },
+    {
+        "label": "update_content",
+        "importPath": "database",
+        "description": "database",
+        "isExtraImport": true,
+        "detail": "database",
+        "documentation": {}
+    },
+    {
+        "label": "fetch_content",
+        "importPath": "utils",
+        "description": "utils",
+        "isExtraImport": true,
+        "detail": "utils",
+        "documentation": {}
+    },
+    {
+        "label": "fetch_content",
+        "importPath": "utils",
+        "description": "utils",
+        "isExtraImport": true,
+        "detail": "utils",
+        "documentation": {}
+    },
+    {
+        "label": "start_monitor",
+        "importPath": "monitor",
+        "description": "monitor",
+        "isExtraImport": true,
+        "detail": "monitor",
+        "documentation": {}
+    },
+    {
+        "label": "load_dotenv",
+        "importPath": "dotenv",
+        "description": "dotenv",
+        "isExtraImport": true,
+        "detail": "dotenv",
+        "documentation": {}
+    },
+    {
+        "label": "sqlite3",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "sqlite3",
+        "description": "sqlite3",
+        "detail": "sqlite3",
+        "documentation": {}
+    },
+    {
+        "label": "requests",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "requests",
+        "description": "requests",
+        "detail": "requests",
+        "documentation": {}
+    },
+    {
+        "label": "BeautifulSoup",
+        "importPath": "bs4",
+        "description": "bs4",
+        "isExtraImport": true,
+        "detail": "bs4",
+        "documentation": {}
+    },
+    {
+        "label": "WEBHOOK_BASE",
+        "kind": 5,
+        "importPath": "bot",
+        "description": "bot",
+        "peekOfCode": "WEBHOOK_BASE = os.getenv(\"WEBHOOK_URL\")\nWEBHOOK_PATH = f\"/webhook/{BOT_TOKEN}\"\nWEBHOOK_URL = f\"{WEBHOOK_BASE}{WEBHOOK_PATH}\"\nPORT = int(os.getenv(\"PORT\", 8080))\n# ================== UI ==================\nMAIN_MENU = ReplyKeyboardMarkup(\n    [\n        [KeyboardButton(\"➕ إضافة رابط\")],\n        [KeyboardButton(\"📁 عرض الروابط\"), KeyboardButton(\"🗑️ حذف رابط\")],\n        [KeyboardButton(\"ℹ️ مساعدة\")],",
+        "detail": "bot",
+        "documentation": {}
+    },
+    {
+        "label": "WEBHOOK_PATH",
+        "kind": 5,
+        "importPath": "bot",
+        "description": "bot",
+        "peekOfCode": "WEBHOOK_PATH = f\"/webhook/{BOT_TOKEN}\"\nWEBHOOK_URL = f\"{WEBHOOK_BASE}{WEBHOOK_PATH}\"\nPORT = int(os.getenv(\"PORT\", 8080))\n# ================== UI ==================\nMAIN_MENU = ReplyKeyboardMarkup(\n    [\n        [KeyboardButton(\"➕ إضافة رابط\")],\n        [KeyboardButton(\"📁 عرض الروابط\"), KeyboardButton(\"🗑️ حذف رابط\")],\n        [KeyboardButton(\"ℹ️ مساعدة\")],\n    ],",
+        "detail": "bot",
+        "documentation": {}
+    },
+    {
+        "label": "WEBHOOK_URL",
+        "kind": 5,
+        "importPath": "bot",
+        "description": "bot",
+        "peekOfCode": "WEBHOOK_URL = f\"{WEBHOOK_BASE}{WEBHOOK_PATH}\"\nPORT = int(os.getenv(\"PORT\", 8080))\n# ================== UI ==================\nMAIN_MENU = ReplyKeyboardMarkup(\n    [\n        [KeyboardButton(\"➕ إضافة رابط\")],\n        [KeyboardButton(\"📁 عرض الروابط\"), KeyboardButton(\"🗑️ حذف رابط\")],\n        [KeyboardButton(\"ℹ️ مساعدة\")],\n    ],\n    resize_keyboard=True,",
+        "detail": "bot",
+        "documentation": {}
+    },
+    {
+        "label": "PORT",
+        "kind": 5,
+        "importPath": "bot",
+        "description": "bot",
+        "peekOfCode": "PORT = int(os.getenv(\"PORT\", 8080))\n# ================== UI ==================\nMAIN_MENU = ReplyKeyboardMarkup(\n    [\n        [KeyboardButton(\"➕ إضافة رابط\")],\n        [KeyboardButton(\"📁 عرض الروابط\"), KeyboardButton(\"🗑️ حذف رابط\")],\n        [KeyboardButton(\"ℹ️ مساعدة\")],\n    ],\n    resize_keyboard=True,\n)",
+        "detail": "bot",
+        "documentation": {}
+    },
+    {
+        "label": "MAIN_MENU",
+        "kind": 5,
+        "importPath": "bot",
+        "description": "bot",
+        "peekOfCode": "MAIN_MENU = ReplyKeyboardMarkup(\n    [\n        [KeyboardButton(\"➕ إضافة رابط\")],\n        [KeyboardButton(\"📁 عرض الروابط\"), KeyboardButton(\"🗑️ حذف رابط\")],\n        [KeyboardButton(\"ℹ️ مساعدة\")],\n    ],\n    resize_keyboard=True,\n)\nADD_LINK, DELETE_LINK = range(2)\nMENU_TEXT = (",
+        "detail": "bot",
+        "documentation": {}
+    },
+    {
+        "label": "MENU_TEXT",
+        "kind": 5,
+        "importPath": "bot",
+        "description": "bot",
+        "peekOfCode": "MENU_TEXT = (\n    \"مرحبا بك في Trackly Bot!\\n\"\n    \"Trackly بيخليك تراقب أي موقع ويب بسهولة ويبلغك أول ما يحصل تغيير.\\n\\n\"\n    \"الأوامر المتاحة:\\n\"\n    \"🔹 /help — عرض هذه القائمة التفصيلية.\\n\"\n    \"🔹 /list — عرض الروابط اللي بتراقبها حاليا.\\n\"\n    \"🔹 /delete <الرابط> — حذف الرابط من المراقبة.\\n\\n\"\n    \"لإضافة رابط جديد، ابعته مباشرة في المحادثة.\"\n)\n# ================== HANDLERS ==================",
+        "detail": "bot",
+        "documentation": {}
+    },
+    {
+        "label": "BOT_TOKEN",
+        "kind": 5,
+        "importPath": "config",
+        "description": "config",
+        "peekOfCode": "BOT_TOKEN = os.getenv(\"BOT_TOKEN\")\nCHECK_INTERVAL = int(os.getenv(\"CHECK_INTERVAL\", 60))\nWEBHOOK_URL = os.getenv(\"WEBHOOK_URL\")\nPORT = int(os.getenv(\"PORT\", 8000))",
+        "detail": "config",
+        "documentation": {}
+    },
+    {
+        "label": "CHECK_INTERVAL",
+        "kind": 5,
+        "importPath": "config",
+        "description": "config",
+        "peekOfCode": "CHECK_INTERVAL = int(os.getenv(\"CHECK_INTERVAL\", 60))\nWEBHOOK_URL = os.getenv(\"WEBHOOK_URL\")\nPORT = int(os.getenv(\"PORT\", 8000))",
+        "detail": "config",
+        "documentation": {}
+    },
+    {
+        "label": "WEBHOOK_URL",
+        "kind": 5,
+        "importPath": "config",
+        "description": "config",
+        "peekOfCode": "WEBHOOK_URL = os.getenv(\"WEBHOOK_URL\")\nPORT = int(os.getenv(\"PORT\", 8000))",
+        "detail": "config",
+        "documentation": {}
+    },
+    {
+        "label": "PORT",
+        "kind": 5,
+        "importPath": "config",
+        "description": "config",
+        "peekOfCode": "PORT = int(os.getenv(\"PORT\", 8000))",
+        "detail": "config",
+        "documentation": {}
+    },
+    {
+        "label": "add_link",
+        "kind": 2,
+        "importPath": "database",
+        "description": "database",
+        "peekOfCode": "def add_link(user_id, url, content):\n    cursor.execute(\"INSERT INTO links (user_id, url, last_content) VALUES (?, ?, ?)\",\n                   (user_id, url, content))\n    conn.commit()\ndef get_links():\n    cursor.execute(\"SELECT * FROM links\")\n    return cursor.fetchall()\ndef get_user_links(user_id):\n    cursor.execute(\"SELECT * FROM links WHERE user_id=?\", (user_id,))\n    return cursor.fetchall()",
+        "detail": "database",
+        "documentation": {}
+    },
+    {
+        "label": "get_links",
+        "kind": 2,
+        "importPath": "database",
+        "description": "database",
+        "peekOfCode": "def get_links():\n    cursor.execute(\"SELECT * FROM links\")\n    return cursor.fetchall()\ndef get_user_links(user_id):\n    cursor.execute(\"SELECT * FROM links WHERE user_id=?\", (user_id,))\n    return cursor.fetchall()\ndef delete_link(user_id, url):\n    cursor.execute(\"DELETE FROM links WHERE user_id=? AND url=?\", (user_id, url))\n    deleted = cursor.rowcount\n    conn.commit()",
+        "detail": "database",
+        "documentation": {}
+    },
+    {
+        "label": "get_user_links",
+        "kind": 2,
+        "importPath": "database",
+        "description": "database",
+        "peekOfCode": "def get_user_links(user_id):\n    cursor.execute(\"SELECT * FROM links WHERE user_id=?\", (user_id,))\n    return cursor.fetchall()\ndef delete_link(user_id, url):\n    cursor.execute(\"DELETE FROM links WHERE user_id=? AND url=?\", (user_id, url))\n    deleted = cursor.rowcount\n    conn.commit()\n    return deleted > 0\ndef update_content(link_id, content):\n    cursor.execute(\"UPDATE links SET last_content=? WHERE id=?\",",
+        "detail": "database",
+        "documentation": {}
+    },
+    {
+        "label": "delete_link",
+        "kind": 2,
+        "importPath": "database",
+        "description": "database",
+        "peekOfCode": "def delete_link(user_id, url):\n    cursor.execute(\"DELETE FROM links WHERE user_id=? AND url=?\", (user_id, url))\n    deleted = cursor.rowcount\n    conn.commit()\n    return deleted > 0\ndef update_content(link_id, content):\n    cursor.execute(\"UPDATE links SET last_content=? WHERE id=?\",\n                   (content, link_id))\n    conn.commit()",
+        "detail": "database",
+        "documentation": {}
+    },
+    {
+        "label": "update_content",
+        "kind": 2,
+        "importPath": "database",
+        "description": "database",
+        "peekOfCode": "def update_content(link_id, content):\n    cursor.execute(\"UPDATE links SET last_content=? WHERE id=?\",\n                   (content, link_id))\n    conn.commit()",
+        "detail": "database",
+        "documentation": {}
+    },
+    {
+        "label": "conn",
+        "kind": 5,
+        "importPath": "database",
+        "description": "database",
+        "peekOfCode": "conn = sqlite3.connect(\"data.db\", check_same_thread=False)\ncursor = conn.cursor()\ncursor.execute(\"\"\"\nCREATE TABLE IF NOT EXISTS links (\n    id INTEGER PRIMARY KEY AUTOINCREMENT,\n    user_id INTEGER,\n    url TEXT,\n    last_content TEXT\n)\n\"\"\")",
+        "detail": "database",
+        "documentation": {}
+    },
+    {
+        "label": "cursor",
+        "kind": 5,
+        "importPath": "database",
+        "description": "database",
+        "peekOfCode": "cursor = conn.cursor()\ncursor.execute(\"\"\"\nCREATE TABLE IF NOT EXISTS links (\n    id INTEGER PRIMARY KEY AUTOINCREMENT,\n    user_id INTEGER,\n    url TEXT,\n    last_content TEXT\n)\n\"\"\")\nconn.commit()",
+        "detail": "database",
+        "documentation": {}
+    },
+    {
+        "label": "fetch_content",
+        "kind": 2,
+        "importPath": "utils",
+        "description": "utils",
+        "peekOfCode": "def fetch_content(url):\n    try:\n        res = requests.get(url, timeout=10)\n        soup = BeautifulSoup(res.text, \"html.parser\")\n        return soup.get_text()\n    except:\n        return None",
+        "detail": "utils",
+        "documentation": {}
+    }
+]

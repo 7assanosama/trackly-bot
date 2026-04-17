@@ -1,12 +1,21 @@
 from telegram import Update, ReplyKeyboardMarkup, ReplyKeyboardRemove, KeyboardButton
 from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, filters, ContextTypes, ConversationHandler
-import threading
+from aiohttp import web
+import asyncio
+import os
 
 from config import BOT_TOKEN
 from database import add_link, delete_link, get_user_links
 from utils import fetch_content
 from monitor import start_monitor
 
+# ================== CONFIG ==================
+WEBHOOK_BASE = os.getenv("WEBHOOK_URL")
+WEBHOOK_PATH = f"/webhook/{BOT_TOKEN}"
+WEBHOOK_URL = f"{WEBHOOK_BASE}{WEBHOOK_PATH}"
+PORT = int(os.getenv("PORT", 8080))
+
+# ================== UI ==================
 MAIN_MENU = ReplyKeyboardMarkup(
     [
         [KeyboardButton("➕ إضافة رابط")],
@@ -18,7 +27,6 @@ MAIN_MENU = ReplyKeyboardMarkup(
 
 ADD_LINK, DELETE_LINK = range(2)
 
-
 MENU_TEXT = (
     "مرحبا بك في Trackly Bot!\n"
     "Trackly بيخليك تراقب أي موقع ويب بسهولة ويبلغك أول ما يحصل تغيير.\n\n"
@@ -29,6 +37,7 @@ MENU_TEXT = (
     "لإضافة رابط جديد، ابعته مباشرة في المحادثة."
 )
 
+# ================== HANDLERS ==================
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(MENU_TEXT, reply_markup=MAIN_MENU)
@@ -46,10 +55,7 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 async def prompt_add_link(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text(
-        "ابعتلي الرابط اللي عايز تراقبه:",
-        reply_markup=ReplyKeyboardRemove(),
-    )
+    await update.message.reply_text("ابعتلي الرابط:", reply_markup=ReplyKeyboardRemove())
     return ADD_LINK
 
 
@@ -59,19 +65,16 @@ async def receive_link(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     content = fetch_content(url)
     if not content:
-        await update.message.reply_text("❌ مش قادر اقرأ اللينك، حاول مرة تانية أو اضغط /cancel.")
+        await update.message.reply_text("❌ اللينك مش شغال، حاول تاني أو /cancel")
         return ADD_LINK
 
     add_link(user_id, url, content)
-    await update.message.reply_text("✅ تم إضافة اللينك للمراقبة", reply_markup=MAIN_MENU)
+    await update.message.reply_text("✅ تم الإضافة", reply_markup=MAIN_MENU)
     return ConversationHandler.END
 
 
 async def prompt_delete_link(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text(
-        "ابعتلي الرابط اللي عايز تحذفه:",
-        reply_markup=ReplyKeyboardRemove(),
-    )
+    await update.message.reply_text("ابعت اللينك اللي عايز تحذفه:", reply_markup=ReplyKeyboardRemove())
     return DELETE_LINK
 
 
@@ -81,14 +84,15 @@ async def receive_delete(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     removed = delete_link(user_id, url)
     if removed:
-        await update.message.reply_text("✅ تم حذف اللينك من المراقبة", reply_markup=MAIN_MENU)
+        await update.message.reply_text("✅ تم الحذف", reply_markup=MAIN_MENU)
     else:
-        await update.message.reply_text("❌ مش لقيت اللينك ده في المراقبة", reply_markup=MAIN_MENU)
+        await update.message.reply_text("❌ مش موجود", reply_markup=MAIN_MENU)
+
     return ConversationHandler.END
 
 
 async def cancel(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text("تم إلغاء العملية.", reply_markup=MAIN_MENU)
+    await update.message.reply_text("تم الإلغاء", reply_markup=MAIN_MENU)
     return ConversationHandler.END
 
 
@@ -97,12 +101,12 @@ async def list_links(update: Update, context: ContextTypes.DEFAULT_TYPE):
     links = get_user_links(user_id)
 
     if not links:
-        await update.message.reply_text("مافيش لينكات مراقبة دلوقتي.")
+        await update.message.reply_text("مافيش لينكات")
         return
 
-    text = "اللينكات اللي بترقبها:\n"
+    text = "📁 روابطك:\n"
     for link in links:
-        link_id, _, url, _ = link
+        _, _, url, _ = link
         text += f"- {url}\n"
 
     await update.message.reply_text(text)
@@ -113,29 +117,59 @@ async def delete_link_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
     url = " ".join(context.args).strip()
 
     if not url:
-        await update.message.reply_text("اكتب /delete <اللنك> علشان احذفه.")
+        await update.message.reply_text("اكتب /delete <link>")
         return
 
     removed = delete_link(user_id, url)
     if removed:
-        await update.message.reply_text("✅ تم حذف اللينك من المراقبة", reply_markup=MAIN_MENU)
+        await update.message.reply_text("✅ تم الحذف", reply_markup=MAIN_MENU)
     else:
-        await update.message.reply_text("❌ مش لقيت اللينك ده في المراقبة", reply_markup=MAIN_MENU)
+        await update.message.reply_text("❌ مش موجود", reply_markup=MAIN_MENU)
 
 
 async def unknown_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text(
-        "من فضلك استخدم الأزرار في القائمة لإدارة البوت.",
-        reply_markup=MAIN_MENU,
-    )
+    await update.message.reply_text("استخدم الأزرار 👇", reply_markup=MAIN_MENU)
 
 
-# ✅ دي الحركة الصح
+# ================== BACKGROUND ==================
 async def post_init(app):
-    import asyncio
     asyncio.create_task(start_monitor(app.bot))
 
 
+# ================== WEBHOOK ==================
+async def webhook_handler(request):
+    data = await request.json()
+    update = Update.de_json(data, app.bot)
+    await app.process_update(update)
+    return web.Response(text="ok")
+
+
+async def main():
+    await app.initialize()
+
+    # حذف أي webhook قديم
+    await app.bot.delete_webhook(drop_pending_updates=True)
+
+    # تسجيل الجديد
+    await app.bot.set_webhook(WEBHOOK_URL)
+
+    # سيرفر
+    web_app = web.Application()
+    web_app.router.add_post(WEBHOOK_PATH, webhook_handler)
+
+    runner = web.AppRunner(web_app)
+    await runner.setup()
+
+    site = web.TCPSite(runner, "0.0.0.0", PORT)
+    await site.start()
+
+    print("🚀 Webhook running...")
+
+    await app.start()
+    await asyncio.Event().wait()
+
+
+# ================== RUN ==================
 if __name__ == "__main__":
     app = ApplicationBuilder().token(BOT_TOKEN).post_init(post_init).build()
 
@@ -160,5 +194,6 @@ if __name__ == "__main__":
     app.add_handler(MessageHandler(filters.Regex("^ℹ️ مساعدة$"), help_command))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, unknown_text))
 
-    print("Bot is running...")
-    app.run_polling()
+    print("Bot is starting...")
+
+    asyncio.run(main())
