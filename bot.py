@@ -84,7 +84,7 @@ if __name__ == "__main__":
 
     application.add_handler(MessageHandler(filters.Regex("^(🌐 تغيير اللغة|🌐 Language)$"), change_lang))
     application.add_handler(MessageHandler(filters.Regex("^(🇸🇦 العربية|🇬🇧 English)$"), set_lang))
-    application.add_handler(MessageHandler(filters.Regex("^(ℹ️ مساعدة|ℹ️ Help)$"), help_command))
+    application.add_handler(MessageHandler(filters.Regex("^(ℹ️ الدعم|ℹ️ support)$"), help_command))
     application.add_handler(MessageHandler(filters.Regex("^(💎 خطط التسعير|💎 Pricing Plans)$"), plans_command))
 
     conv = ConversationHandler(
