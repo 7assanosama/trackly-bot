@@ -22,7 +22,9 @@ TEXTS = {
         "diff_before": "قبل",
         "diff_after": "بعد",
         "diff_truncated": "\n...\n(مختصر)",
-        "site_changed": "🚨 الموقع اتغير:\n{url}\n\n📝 التغيير:\n```\n{diff_text}\n```",
+        "site_changed": "🚨 **تحديث جديد في الموقع:**\n{url}\n\n{diff_text}",
+        "additions": "إضافات جديدة:",
+        "deletions": "نصوص محذوفة:",
     },
     "en": {
         "menu": "Welcome to Trackly Bot 🚀",
@@ -46,6 +48,8 @@ TEXTS = {
         "diff_before": "Before",
         "diff_after": "After",
         "diff_truncated": "\n...\n(truncated)",
-        "site_changed": "🚨 Site changed:\n{url}\n\n📝 Changes:\n```\n{diff_text}\n```",
+        "site_changed": "🚨 **Website update:**\n{url}\n\n{diff_text}",
+        "additions": "Added:",
+        "deletions": "Removed:",
     }
 }

@@ -7,14 +7,36 @@ from lang import TEXTS
 
 
 def get_diff(old, new, lang_dict):
-    diff = difflib.unified_diff(
+    diff = list(difflib.unified_diff(
         old.splitlines(),
         new.splitlines(),
-        lineterm="",
-        fromfile=lang_dict["diff_before"],
-        tofile=lang_dict["diff_after"]
-    )
-    return "\n".join(diff)
+        n=0,
+        lineterm=""
+    ))
+    
+    additions = []
+    deletions = []
+    
+    for line in diff:
+        if line.startswith('---') or line.startswith('+++') or line.startswith('@@'):
+            continue
+        if line.startswith('+'):
+            text = line[1:].strip()
+            if text: additions.append(text)
+        elif line.startswith('-'):
+            text = line[1:].strip()
+            if text: deletions.append(text)
+            
+    res = []
+    if additions:
+        res.append(f"🟢 **{lang_dict.get('additions', 'إضافات جديدة:')}**\n" + "\n".join(f"+ {a}" for a in additions))
+    if deletions:
+        res.append(f"🔴 **{lang_dict.get('deletions', 'نصوص محذوفة:')}**\n" + "\n".join(f"- {d}" for d in deletions))
+        
+    if not res:
+        return "🔄 تغير في التنسيق الداخلي أو خصائص غير نصية."
+        
+    return "\n\n".join(res)
 
 
 async def process_link(app, link):
