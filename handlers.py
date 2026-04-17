@@ -1,9 +1,10 @@
 from telegram import Update, ReplyKeyboardMarkup, ReplyKeyboardRemove, KeyboardButton
 from telegram.ext import ContextTypes, ConversationHandler
 
-from database import add_link, delete_link, get_user_links, get_user_plan, get_user_link_count
+from database import add_link, delete_link, get_user_links, get_user_plan, get_user_link_count, update_user_plan
 from utils import fetch_content
 from lang import TEXTS
+from config import ADMIN_ID
 
 ADD_LINK, DELETE_LINK = range(2)
 
@@ -50,7 +51,27 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def plans_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     lang = get_lang(update, context)
-    await update.message.reply_text(TEXTS[lang]["plans_info"], reply_markup=build_menu(lang), parse_mode="Markdown")
+    user_id = update.effective_chat.id
+    msg = TEXTS[lang]["plans_info"].format(user_id=user_id)
+    await update.message.reply_text(msg, reply_markup=build_menu(lang), parse_mode="Markdown")
+
+
+# ================= ADMIN =================
+async def set_plan_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    if update.effective_user.id != ADMIN_ID:
+        return
+
+    try:
+        user_id = int(context.args[0])
+        plan = context.args[1].lower()
+
+        if plan not in ["free", "basic", "pro"]:
+            raise ValueError()
+
+        update_user_plan(user_id, plan)
+        await update.message.reply_text(f"✅ User `{user_id}` upgraded to `{plan}` plan.", parse_mode="Markdown")
+    except (IndexError, ValueError):
+        await update.message.reply_text("❌ Usage: `/set_plan <user_id> <free/basic/pro>`", parse_mode="Markdown")
 
 
 # ================= LANGUAGE =================

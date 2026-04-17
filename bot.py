@@ -12,11 +12,7 @@ import os
 
 from config import BOT_TOKEN
 from monitor import start_monitor
-from handlers import (
-    start, help_command, change_lang, set_lang, plans_command,
-    prompt_add_link, receive_link, prompt_delete_link, receive_delete,
-    list_links, cancel, ADD_LINK, DELETE_LINK
-)
+from handlers import *
 
 # ================= CONFIG =================
 BASE_URL = os.getenv("WEBHOOK_URL")
@@ -25,19 +21,23 @@ PORT = int(os.getenv("PORT", 8080))
 WEBHOOK_PATH = "/webhook"
 WEBHOOK_URL = f"{BASE_URL}{WEBHOOK_PATH}"
 
-# ================= APP =================
+
+# ================= WEBHOOK APP =================
 application = ApplicationBuilder().token(BOT_TOKEN).build()
 
-# ================= MONITOR =================
+
 async def post_init(app):
     asyncio.create_task(start_monitor(app))
 
 
-# ================= WEBHOOK =================
+# ================= WEBHOOK HANDLER =================
 async def webhook_handler(request):
     data = await request.json()
     update = Update.de_json(data, application.bot)
-    await application.process_update(update)
+
+    # ✔️ correct way (safe with PTB async)
+    await application.update_queue.put(update)
+
     return web.Response(text="ok")
 
 
@@ -46,7 +46,7 @@ async def main():
     await application.initialize()
 
     await application.bot.delete_webhook(drop_pending_updates=True)
-    await application.bot.set_webhook(WEBHOOK_URL)
+    await application.bot.set_webhook(url=WEBHOOK_URL)
 
     aio_app = web.Application()
     aio_app.router.add_post(WEBHOOK_PATH, webhook_handler)
@@ -60,6 +60,7 @@ async def main():
     print("🚀 Bot is running on webhook")
 
     await application.start()
+
     await asyncio.Event().wait()
 
 
@@ -72,8 +73,10 @@ if __name__ == "__main__":
         .build()
     )
 
+    # handlers
     application.add_handler(CommandHandler("help", help_command))
     application.add_handler(CommandHandler("start", start))
+    application.add_handler(CommandHandler("set_plan", set_plan_command))
 
     application.add_handler(MessageHandler(filters.Regex("^(🌐 تغيير اللغة|🌐 Language)$"), change_lang))
     application.add_handler(MessageHandler(filters.Regex("^(🇸🇦 العربية|🇬🇧 English)$"), set_lang))
