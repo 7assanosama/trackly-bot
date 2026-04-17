@@ -4,6 +4,7 @@ from telegram.ext import (
     CommandHandler,
     MessageHandler,
     ConversationHandler,
+    CallbackQueryHandler,
     filters,
 )
 from aiohttp import web
@@ -77,6 +78,9 @@ if __name__ == "__main__":
     application.add_handler(CommandHandler("help", help_command))
     application.add_handler(CommandHandler("start", start))
     application.add_handler(CommandHandler("set_plan", set_plan_command))
+    application.add_handler(CommandHandler("admin", admin_command))
+    application.add_handler(CommandHandler("broadcast", broadcast_command))
+    application.add_handler(CallbackQueryHandler(admin_callback, pattern="^admin_"))
 
     application.add_handler(MessageHandler(filters.Regex("^(🌐 تغيير اللغة|🌐 Language)$"), change_lang))
     application.add_handler(MessageHandler(filters.Regex("^(🇸🇦 العربية|🇬🇧 English)$"), set_lang))

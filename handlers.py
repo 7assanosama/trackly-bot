@@ -1,7 +1,7 @@
-from telegram import Update, ReplyKeyboardMarkup, ReplyKeyboardRemove, KeyboardButton
+from telegram import Update, ReplyKeyboardMarkup, ReplyKeyboardRemove, KeyboardButton, InlineKeyboardMarkup, InlineKeyboardButton
 from telegram.ext import ContextTypes, ConversationHandler
 
-from database import add_link, delete_link, get_user_links, get_user_plan, get_user_link_count, update_user_plan
+from database import add_link, delete_link, get_user_links, get_user_plan, get_user_link_count, update_user_plan, get_stats, get_all_users
 from utils import fetch_content
 from lang import TEXTS
 from config import ADMIN_ID
@@ -72,6 +72,63 @@ async def set_plan_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.message.reply_text(f"✅ User `{user_id}` upgraded to `{plan}` plan.", parse_mode="Markdown")
     except (IndexError, ValueError):
         await update.message.reply_text("❌ Usage: `/set_plan <user_id> <free/basic/pro>`", parse_mode="Markdown")
+
+
+async def admin_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    if update.effective_user.id != ADMIN_ID:
+        return
+        
+    keyboard = [
+        [InlineKeyboardButton("📊 الإحصائيات", callback_data="admin_stats")],
+        [InlineKeyboardButton("💎 ترقية حساب", callback_data="admin_upgrade")],
+        [InlineKeyboardButton("📢 رسالة للجميع", callback_data="admin_broadcast")]
+    ]
+    reply_markup = InlineKeyboardMarkup(keyboard)
+    await update.message.reply_text("🛠️ **لوحة تحكم الإدارة:**", reply_markup=reply_markup, parse_mode="Markdown")
+
+
+async def admin_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    query = update.callback_query
+    if query.from_user.id != ADMIN_ID:
+        await query.answer("❌ غير مصرح.", show_alert=True)
+        return
+        
+    data = query.data
+    await query.answer()
+
+    if data == "admin_stats":
+        users, links = get_stats()
+        text = f"📊 **الإحصائيات الحالية:**\n\n👤 المستخدمين: {users}\n🔗 الروابط النشطة: {links}"
+        await query.edit_message_text(text, parse_mode="Markdown")
+        
+    elif data == "admin_upgrade":
+        text = "لترقية أي حساب، يرجى كتابة الأمر التالي:\n`/set_plan <user_id> <free/basic/pro>`\n\nمثال:\n`/set_plan 123456 pro`"
+        await query.edit_message_text(text, parse_mode="Markdown")
+        
+    elif data == "admin_broadcast":
+        text = "لإرسال رسالة لجميع المستخدمين، اكتب الأمر التالي متبوعاً بالرسالة:\n`/broadcast <رسالتك هنا>`"
+        await query.edit_message_text(text, parse_mode="Markdown")
+
+
+async def broadcast_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    if update.effective_user.id != ADMIN_ID:
+        return
+
+    message = " ".join(context.args)
+    if not message:
+        await update.message.reply_text("❌ يجب كتابة الرسالة بعد الأمر.\nمثال: `/broadcast السلام عليكم`", parse_mode="Markdown")
+        return
+
+    users = get_all_users()
+    count = 0
+    for u_id in users:
+        try:
+            await context.bot.send_message(chat_id=u_id, text=f"📢 **رسالة إدارية:**\n\n{message}", parse_mode="Markdown")
+            count += 1
+        except Exception:
+            pass
+
+    await update.message.reply_text(f"✅ تم إرسال الرسالة إلى {count} مستخدم.")
 
 
 # ================= LANGUAGE =================

@@ -71,3 +71,16 @@ def update_user_plan(user_id, plan):
 def get_user_link_count(user_id):
     cursor.execute("SELECT COUNT(*) FROM links WHERE user_id=?", (user_id,))
     return cursor.fetchone()[0]
+
+
+def get_stats():
+    cursor.execute("SELECT COUNT(*) FROM users")
+    users = cursor.fetchone()[0]
+    cursor.execute("SELECT COUNT(*) FROM links")
+    links = cursor.fetchone()[0]
+    return users, links
+
+
+def get_all_users():
+    cursor.execute("SELECT user_id FROM users")
+    return [row[0] for row in cursor.fetchall()]
