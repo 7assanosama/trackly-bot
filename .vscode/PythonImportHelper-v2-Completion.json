@@ -56,14 +56,6 @@
         "documentation": {}
     },
     {
-        "label": "filters",
-        "importPath": "telegram.ext",
-        "description": "telegram.ext",
-        "isExtraImport": true,
-        "detail": "telegram.ext",
-        "documentation": {}
-    },
-    {
         "label": "ContextTypes",
         "importPath": "telegram.ext",
         "description": "telegram.ext",
@@ -73,6 +65,14 @@
     },
     {
         "label": "ConversationHandler",
+        "importPath": "telegram.ext",
+        "description": "telegram.ext",
+        "isExtraImport": true,
+        "detail": "telegram.ext",
+        "documentation": {}
+    },
+    {
+        "label": "filters",
         "importPath": "telegram.ext",
         "description": "telegram.ext",
         "isExtraImport": true,
@@ -220,29 +220,11 @@
         "documentation": {}
     },
     {
-        "label": "WEBHOOK_BASE",
+        "label": "BASE_URL",
         "kind": 5,
         "importPath": "bot",
         "description": "bot",
-        "peekOfCode": "WEBHOOK_BASE = os.getenv(\"WEBHOOK_URL\")\nWEBHOOK_PATH = f\"/webhook/{BOT_TOKEN}\"\nWEBHOOK_URL = f\"{WEBHOOK_BASE}{WEBHOOK_PATH}\"\nPORT = int(os.getenv(\"PORT\", 8080))\n# ================== UI ==================\nMAIN_MENU = ReplyKeyboardMarkup(\n    [\n        [KeyboardButton(\"➕ إضافة رابط\")],\n        [KeyboardButton(\"📁 عرض الروابط\"), KeyboardButton(\"🗑️ حذف رابط\")],\n        [KeyboardButton(\"ℹ️ مساعدة\")],",
-        "detail": "bot",
-        "documentation": {}
-    },
-    {
-        "label": "WEBHOOK_PATH",
-        "kind": 5,
-        "importPath": "bot",
-        "description": "bot",
-        "peekOfCode": "WEBHOOK_PATH = f\"/webhook/{BOT_TOKEN}\"\nWEBHOOK_URL = f\"{WEBHOOK_BASE}{WEBHOOK_PATH}\"\nPORT = int(os.getenv(\"PORT\", 8080))\n# ================== UI ==================\nMAIN_MENU = ReplyKeyboardMarkup(\n    [\n        [KeyboardButton(\"➕ إضافة رابط\")],\n        [KeyboardButton(\"📁 عرض الروابط\"), KeyboardButton(\"🗑️ حذف رابط\")],\n        [KeyboardButton(\"ℹ️ مساعدة\")],\n    ],",
-        "detail": "bot",
-        "documentation": {}
-    },
-    {
-        "label": "WEBHOOK_URL",
-        "kind": 5,
-        "importPath": "bot",
-        "description": "bot",
-        "peekOfCode": "WEBHOOK_URL = f\"{WEBHOOK_BASE}{WEBHOOK_PATH}\"\nPORT = int(os.getenv(\"PORT\", 8080))\n# ================== UI ==================\nMAIN_MENU = ReplyKeyboardMarkup(\n    [\n        [KeyboardButton(\"➕ إضافة رابط\")],\n        [KeyboardButton(\"📁 عرض الروابط\"), KeyboardButton(\"🗑️ حذف رابط\")],\n        [KeyboardButton(\"ℹ️ مساعدة\")],\n    ],\n    resize_keyboard=True,",
+        "peekOfCode": "BASE_URL = os.getenv(\"WEBHOOK_URL\")\nPORT = int(os.getenv(\"PORT\", 8080))\nWEBHOOK_PATH = \"/webhook\"\nWEBHOOK_URL = f\"{BASE_URL}{WEBHOOK_PATH}\"\n# ================= APP =================\napplication = ApplicationBuilder().token(BOT_TOKEN).build()\nADD_LINK, DELETE_LINK = range(2)\n# ================= UI =================\nMAIN_MENU = ReplyKeyboardMarkup(\n    [",
         "detail": "bot",
         "documentation": {}
     },
@@ -251,7 +233,34 @@
         "kind": 5,
         "importPath": "bot",
         "description": "bot",
-        "peekOfCode": "PORT = int(os.getenv(\"PORT\", 8080))\n# ================== UI ==================\nMAIN_MENU = ReplyKeyboardMarkup(\n    [\n        [KeyboardButton(\"➕ إضافة رابط\")],\n        [KeyboardButton(\"📁 عرض الروابط\"), KeyboardButton(\"🗑️ حذف رابط\")],\n        [KeyboardButton(\"ℹ️ مساعدة\")],\n    ],\n    resize_keyboard=True,\n)",
+        "peekOfCode": "PORT = int(os.getenv(\"PORT\", 8080))\nWEBHOOK_PATH = \"/webhook\"\nWEBHOOK_URL = f\"{BASE_URL}{WEBHOOK_PATH}\"\n# ================= APP =================\napplication = ApplicationBuilder().token(BOT_TOKEN).build()\nADD_LINK, DELETE_LINK = range(2)\n# ================= UI =================\nMAIN_MENU = ReplyKeyboardMarkup(\n    [\n        [KeyboardButton(\"➕ إضافة رابط\")],",
+        "detail": "bot",
+        "documentation": {}
+    },
+    {
+        "label": "WEBHOOK_PATH",
+        "kind": 5,
+        "importPath": "bot",
+        "description": "bot",
+        "peekOfCode": "WEBHOOK_PATH = \"/webhook\"\nWEBHOOK_URL = f\"{BASE_URL}{WEBHOOK_PATH}\"\n# ================= APP =================\napplication = ApplicationBuilder().token(BOT_TOKEN).build()\nADD_LINK, DELETE_LINK = range(2)\n# ================= UI =================\nMAIN_MENU = ReplyKeyboardMarkup(\n    [\n        [KeyboardButton(\"➕ إضافة رابط\")],\n        [KeyboardButton(\"📁 عرض الروابط\"), KeyboardButton(\"🗑️ حذف رابط\")],",
+        "detail": "bot",
+        "documentation": {}
+    },
+    {
+        "label": "WEBHOOK_URL",
+        "kind": 5,
+        "importPath": "bot",
+        "description": "bot",
+        "peekOfCode": "WEBHOOK_URL = f\"{BASE_URL}{WEBHOOK_PATH}\"\n# ================= APP =================\napplication = ApplicationBuilder().token(BOT_TOKEN).build()\nADD_LINK, DELETE_LINK = range(2)\n# ================= UI =================\nMAIN_MENU = ReplyKeyboardMarkup(\n    [\n        [KeyboardButton(\"➕ إضافة رابط\")],\n        [KeyboardButton(\"📁 عرض الروابط\"), KeyboardButton(\"🗑️ حذف رابط\")],\n        [KeyboardButton(\"ℹ️ مساعدة\")],",
+        "detail": "bot",
+        "documentation": {}
+    },
+    {
+        "label": "application",
+        "kind": 5,
+        "importPath": "bot",
+        "description": "bot",
+        "peekOfCode": "application = ApplicationBuilder().token(BOT_TOKEN).build()\nADD_LINK, DELETE_LINK = range(2)\n# ================= UI =================\nMAIN_MENU = ReplyKeyboardMarkup(\n    [\n        [KeyboardButton(\"➕ إضافة رابط\")],\n        [KeyboardButton(\"📁 عرض الروابط\"), KeyboardButton(\"🗑️ حذف رابط\")],\n        [KeyboardButton(\"ℹ️ مساعدة\")],\n    ],\n    resize_keyboard=True,",
         "detail": "bot",
         "documentation": {}
     },
@@ -260,7 +269,7 @@
         "kind": 5,
         "importPath": "bot",
         "description": "bot",
-        "peekOfCode": "MAIN_MENU = ReplyKeyboardMarkup(\n    [\n        [KeyboardButton(\"➕ إضافة رابط\")],\n        [KeyboardButton(\"📁 عرض الروابط\"), KeyboardButton(\"🗑️ حذف رابط\")],\n        [KeyboardButton(\"ℹ️ مساعدة\")],\n    ],\n    resize_keyboard=True,\n)\nADD_LINK, DELETE_LINK = range(2)\nMENU_TEXT = (",
+        "peekOfCode": "MAIN_MENU = ReplyKeyboardMarkup(\n    [\n        [KeyboardButton(\"➕ إضافة رابط\")],\n        [KeyboardButton(\"📁 عرض الروابط\"), KeyboardButton(\"🗑️ حذف رابط\")],\n        [KeyboardButton(\"ℹ️ مساعدة\")],\n    ],\n    resize_keyboard=True,\n)\nMENU_TEXT = \"مرحبا بك في Trackly Bot 🚀\"\n# ================= HANDLERS =================",
         "detail": "bot",
         "documentation": {}
     },
@@ -269,7 +278,7 @@
         "kind": 5,
         "importPath": "bot",
         "description": "bot",
-        "peekOfCode": "MENU_TEXT = (\n    \"مرحبا بك في Trackly Bot!\\n\"\n    \"Trackly بيخليك تراقب أي موقع ويب بسهولة ويبلغك أول ما يحصل تغيير.\\n\\n\"\n    \"الأوامر المتاحة:\\n\"\n    \"🔹 /help — عرض هذه القائمة التفصيلية.\\n\"\n    \"🔹 /list — عرض الروابط اللي بتراقبها حاليا.\\n\"\n    \"🔹 /delete <الرابط> — حذف الرابط من المراقبة.\\n\\n\"\n    \"لإضافة رابط جديد، ابعته مباشرة في المحادثة.\"\n)\n# ================== HANDLERS ==================",
+        "peekOfCode": "MENU_TEXT = \"مرحبا بك في Trackly Bot 🚀\"\n# ================= HANDLERS =================\nasync def start(update: Update, context: ContextTypes.DEFAULT_TYPE):\n    await update.message.reply_text(MENU_TEXT, reply_markup=MAIN_MENU)\nasync def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):\n    await update.message.reply_text(\"استخدم الأزرار 👇\", reply_markup=MAIN_MENU)\nasync def prompt_add_link(update: Update, context: ContextTypes.DEFAULT_TYPE):\n    await update.message.reply_text(\"ابعت الرابط:\", reply_markup=ReplyKeyboardRemove())\n    return ADD_LINK\nasync def receive_link(update: Update, context: ContextTypes.DEFAULT_TYPE):",
         "detail": "bot",
         "documentation": {}
     },
