@@ -1,5 +1,5 @@
 python-telegram-bot>=21.0
-aiohttp 
+aiohttp
 requests
 beautifulsoup4
 python-dotenv
