@@ -238,10 +238,15 @@ if __name__ == "__main__":
     )
 
     application.add_handler(CommandHandler("start", start))
-    application.add_handler(CommandHandler("help", help_command))
+
+    application.add_handler(CommandHandler("add", add_link))
+    application.add_handler(CommandHandler("delete", delete_link))
+    
     application.add_handler(CommandHandler("list", list_links))
 
-    application.add_handler(MessageHandler(filters.Regex("^🌐 تغيير اللغة$"), change_lang))
+    application.add_handler(CommandHandler("help", help_command))
+
+    application.add_handler(MessageHandler(filters.Regex("^lang$"), change_lang))
     application.add_handler(MessageHandler(filters.Regex("^(🇸🇦 العربية|🇬🇧 English)$"), set_lang))
 
     conv = ConversationHandler(
