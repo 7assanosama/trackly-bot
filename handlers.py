@@ -76,6 +76,7 @@ async def set_plan_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def admin_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if update.effective_user.id != ADMIN_ID:
+        await update.message.reply_text(f"❌ غير مصرح لك.\n\nتلميح: الـ ID الخاص بك هو `{update.effective_user.id}`. ضعه في متغير `ADMIN_ID` في ملف `.env` لتفعيل لوحة التحكم.", parse_mode="Markdown")
         return
         
     keyboard = [
@@ -176,7 +177,7 @@ async def prompt_add_link(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.message.reply_text(TEXTS[lang]["limit_reached"], reply_markup=build_menu(lang))
         return ConversationHandler.END
 
-    await update.message.reply_text(TEXTS[lang]["send_link"], reply_markup=ReplyKeyboardRemove())
+    await update.message.reply_text(TEXTS[lang]["send_add_link"], reply_markup=ReplyKeyboardRemove())
     return ADD_LINK
 
 
@@ -184,6 +185,9 @@ async def receive_link(update: Update, context: ContextTypes.DEFAULT_TYPE):
     url = update.message.text
     user_id = update.effective_chat.id
     lang = get_lang(update, context)
+
+    if url.strip().lower() in ["cancel", "الغاء", "إلغاء"]:
+        return await cancel(update, context)
 
     content = fetch_content(url)
     if not content:
@@ -205,6 +209,9 @@ async def receive_delete(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_id = update.effective_chat.id
     url = update.message.text
     lang = get_lang(update, context)
+
+    if url.strip().lower() in ["cancel", "الغاء", "إلغاء"]:
+        return await cancel(update, context)
 
     delete_link(user_id, url)
     await update.message.reply_text(TEXTS[lang]["deleted"], reply_markup=build_menu(lang))
