@@ -76,7 +76,6 @@ async def set_plan_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def admin_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if update.effective_user.id != ADMIN_ID:
-        await update.message.reply_text(f"❌ غير مصرح لك.\n\nتلميح: الـ ID الخاص بك هو `{update.effective_user.id}`. ضعه في متغير `ADMIN_ID` في ملف `.env` لتفعيل لوحة التحكم.", parse_mode="Markdown")
         return
         
     keyboard = [
