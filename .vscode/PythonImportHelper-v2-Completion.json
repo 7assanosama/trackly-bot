@@ -8,6 +8,14 @@
         "documentation": {}
     },
     {
+        "label": "Update",
+        "importPath": "telegram",
+        "description": "telegram",
+        "isExtraImport": true,
+        "detail": "telegram",
+        "documentation": {}
+    },
+    {
         "label": "ReplyKeyboardMarkup",
         "importPath": "telegram",
         "description": "telegram",
@@ -25,6 +33,22 @@
     },
     {
         "label": "KeyboardButton",
+        "importPath": "telegram",
+        "description": "telegram",
+        "isExtraImport": true,
+        "detail": "telegram",
+        "documentation": {}
+    },
+    {
+        "label": "InlineKeyboardMarkup",
+        "importPath": "telegram",
+        "description": "telegram",
+        "isExtraImport": true,
+        "detail": "telegram",
+        "documentation": {}
+    },
+    {
+        "label": "InlineKeyboardButton",
         "importPath": "telegram",
         "description": "telegram",
         "isExtraImport": true,
@@ -56,6 +80,30 @@
         "documentation": {}
     },
     {
+        "label": "ConversationHandler",
+        "importPath": "telegram.ext",
+        "description": "telegram.ext",
+        "isExtraImport": true,
+        "detail": "telegram.ext",
+        "documentation": {}
+    },
+    {
+        "label": "CallbackQueryHandler",
+        "importPath": "telegram.ext",
+        "description": "telegram.ext",
+        "isExtraImport": true,
+        "detail": "telegram.ext",
+        "documentation": {}
+    },
+    {
+        "label": "filters",
+        "importPath": "telegram.ext",
+        "description": "telegram.ext",
+        "isExtraImport": true,
+        "detail": "telegram.ext",
+        "documentation": {}
+    },
+    {
         "label": "ContextTypes",
         "importPath": "telegram.ext",
         "description": "telegram.ext",
@@ -65,14 +113,6 @@
     },
     {
         "label": "ConversationHandler",
-        "importPath": "telegram.ext",
-        "description": "telegram.ext",
-        "isExtraImport": true,
-        "detail": "telegram.ext",
-        "documentation": {}
-    },
-    {
-        "label": "filters",
         "importPath": "telegram.ext",
         "description": "telegram.ext",
         "isExtraImport": true,
@@ -114,11 +154,52 @@
         "documentation": {}
     },
     {
+        "label": "ADMIN_ID",
+        "importPath": "config",
+        "description": "config",
+        "isExtraImport": true,
+        "detail": "config",
+        "documentation": {}
+    },
+    {
         "label": "CHECK_INTERVAL",
         "importPath": "config",
         "description": "config",
         "isExtraImport": true,
         "detail": "config",
+        "documentation": {}
+    },
+    {
+        "label": "start_monitor",
+        "importPath": "monitor",
+        "description": "monitor",
+        "isExtraImport": true,
+        "detail": "monitor",
+        "documentation": {}
+    },
+    {
+        "label": "*",
+        "importPath": "handlers",
+        "description": "handlers",
+        "isExtraImport": true,
+        "detail": "handlers",
+        "documentation": {}
+    },
+    {
+        "label": "load_dotenv",
+        "importPath": "dotenv",
+        "description": "dotenv",
+        "isExtraImport": true,
+        "detail": "dotenv",
+        "documentation": {}
+    },
+    {
+        "label": "sqlite3",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "sqlite3",
+        "description": "sqlite3",
+        "detail": "sqlite3",
         "documentation": {}
     },
     {
@@ -139,6 +220,46 @@
     },
     {
         "label": "get_user_links",
+        "importPath": "database",
+        "description": "database",
+        "isExtraImport": true,
+        "detail": "database",
+        "documentation": {}
+    },
+    {
+        "label": "get_user_plan",
+        "importPath": "database",
+        "description": "database",
+        "isExtraImport": true,
+        "detail": "database",
+        "documentation": {}
+    },
+    {
+        "label": "get_user_link_count",
+        "importPath": "database",
+        "description": "database",
+        "isExtraImport": true,
+        "detail": "database",
+        "documentation": {}
+    },
+    {
+        "label": "update_user_plan",
+        "importPath": "database",
+        "description": "database",
+        "isExtraImport": true,
+        "detail": "database",
+        "documentation": {}
+    },
+    {
+        "label": "get_stats",
+        "importPath": "database",
+        "description": "database",
+        "isExtraImport": true,
+        "detail": "database",
+        "documentation": {}
+    },
+    {
+        "label": "get_all_users",
         "importPath": "database",
         "description": "database",
         "isExtraImport": true,
@@ -178,28 +299,28 @@
         "documentation": {}
     },
     {
-        "label": "start_monitor",
-        "importPath": "monitor",
-        "description": "monitor",
+        "label": "TEXTS",
+        "importPath": "lang",
+        "description": "lang",
         "isExtraImport": true,
-        "detail": "monitor",
+        "detail": "lang",
         "documentation": {}
     },
     {
-        "label": "load_dotenv",
-        "importPath": "dotenv",
-        "description": "dotenv",
+        "label": "TEXTS",
+        "importPath": "lang",
+        "description": "lang",
         "isExtraImport": true,
-        "detail": "dotenv",
+        "detail": "lang",
         "documentation": {}
     },
     {
-        "label": "sqlite3",
+        "label": "difflib",
         "kind": 6,
         "isExtraImport": true,
-        "importPath": "sqlite3",
-        "description": "sqlite3",
-        "detail": "sqlite3",
+        "importPath": "difflib",
+        "description": "difflib",
+        "detail": "difflib",
         "documentation": {}
     },
     {
@@ -224,7 +345,7 @@
         "kind": 5,
         "importPath": "bot",
         "description": "bot",
-        "peekOfCode": "BASE_URL = os.getenv(\"WEBHOOK_URL\")\nPORT = int(os.getenv(\"PORT\", 8080))\nWEBHOOK_PATH = \"/webhook\"\nWEBHOOK_URL = f\"{BASE_URL}{WEBHOOK_PATH}\"\n# ================= APP =================\napplication = ApplicationBuilder().token(BOT_TOKEN).build()\nADD_LINK, DELETE_LINK = range(2)\n# ================= UI =================\nMAIN_MENU = ReplyKeyboardMarkup(\n    [",
+        "peekOfCode": "BASE_URL = os.getenv(\"WEBHOOK_URL\")\nPORT = int(os.getenv(\"PORT\", 8080))\nWEBHOOK_PATH = \"/webhook\"\nWEBHOOK_URL = f\"{BASE_URL}{WEBHOOK_PATH}\"\n# ================= WEBHOOK APP =================\napplication = ApplicationBuilder().token(BOT_TOKEN).build()\n# ================= WEBHOOK HANDLER =================\nasync def webhook_handler(request):\n    data = await request.json()\n    update = Update.de_json(data, application.bot)",
         "detail": "bot",
         "documentation": {}
     },
@@ -233,7 +354,7 @@
         "kind": 5,
         "importPath": "bot",
         "description": "bot",
-        "peekOfCode": "PORT = int(os.getenv(\"PORT\", 8080))\nWEBHOOK_PATH = \"/webhook\"\nWEBHOOK_URL = f\"{BASE_URL}{WEBHOOK_PATH}\"\n# ================= APP =================\napplication = ApplicationBuilder().token(BOT_TOKEN).build()\nADD_LINK, DELETE_LINK = range(2)\n# ================= UI =================\nMAIN_MENU = ReplyKeyboardMarkup(\n    [\n        [KeyboardButton(\"➕ إضافة رابط\")],",
+        "peekOfCode": "PORT = int(os.getenv(\"PORT\", 8080))\nWEBHOOK_PATH = \"/webhook\"\nWEBHOOK_URL = f\"{BASE_URL}{WEBHOOK_PATH}\"\n# ================= WEBHOOK APP =================\napplication = ApplicationBuilder().token(BOT_TOKEN).build()\n# ================= WEBHOOK HANDLER =================\nasync def webhook_handler(request):\n    data = await request.json()\n    update = Update.de_json(data, application.bot)\n    # ✔️ correct way (safe with PTB async)",
         "detail": "bot",
         "documentation": {}
     },
@@ -242,7 +363,7 @@
         "kind": 5,
         "importPath": "bot",
         "description": "bot",
-        "peekOfCode": "WEBHOOK_PATH = \"/webhook\"\nWEBHOOK_URL = f\"{BASE_URL}{WEBHOOK_PATH}\"\n# ================= APP =================\napplication = ApplicationBuilder().token(BOT_TOKEN).build()\nADD_LINK, DELETE_LINK = range(2)\n# ================= UI =================\nMAIN_MENU = ReplyKeyboardMarkup(\n    [\n        [KeyboardButton(\"➕ إضافة رابط\")],\n        [KeyboardButton(\"📁 عرض الروابط\"), KeyboardButton(\"🗑️ حذف رابط\")],",
+        "peekOfCode": "WEBHOOK_PATH = \"/webhook\"\nWEBHOOK_URL = f\"{BASE_URL}{WEBHOOK_PATH}\"\n# ================= WEBHOOK APP =================\napplication = ApplicationBuilder().token(BOT_TOKEN).build()\n# ================= WEBHOOK HANDLER =================\nasync def webhook_handler(request):\n    data = await request.json()\n    update = Update.de_json(data, application.bot)\n    # ✔️ correct way (safe with PTB async)\n    await application.update_queue.put(update)",
         "detail": "bot",
         "documentation": {}
     },
@@ -251,7 +372,7 @@
         "kind": 5,
         "importPath": "bot",
         "description": "bot",
-        "peekOfCode": "WEBHOOK_URL = f\"{BASE_URL}{WEBHOOK_PATH}\"\n# ================= APP =================\napplication = ApplicationBuilder().token(BOT_TOKEN).build()\nADD_LINK, DELETE_LINK = range(2)\n# ================= UI =================\nMAIN_MENU = ReplyKeyboardMarkup(\n    [\n        [KeyboardButton(\"➕ إضافة رابط\")],\n        [KeyboardButton(\"📁 عرض الروابط\"), KeyboardButton(\"🗑️ حذف رابط\")],\n        [KeyboardButton(\"ℹ️ مساعدة\")],",
+        "peekOfCode": "WEBHOOK_URL = f\"{BASE_URL}{WEBHOOK_PATH}\"\n# ================= WEBHOOK APP =================\napplication = ApplicationBuilder().token(BOT_TOKEN).build()\n# ================= WEBHOOK HANDLER =================\nasync def webhook_handler(request):\n    data = await request.json()\n    update = Update.de_json(data, application.bot)\n    # ✔️ correct way (safe with PTB async)\n    await application.update_queue.put(update)\n    return web.Response(text=\"ok\")",
         "detail": "bot",
         "documentation": {}
     },
@@ -260,25 +381,7 @@
         "kind": 5,
         "importPath": "bot",
         "description": "bot",
-        "peekOfCode": "application = ApplicationBuilder().token(BOT_TOKEN).build()\nADD_LINK, DELETE_LINK = range(2)\n# ================= UI =================\nMAIN_MENU = ReplyKeyboardMarkup(\n    [\n        [KeyboardButton(\"➕ إضافة رابط\")],\n        [KeyboardButton(\"📁 عرض الروابط\"), KeyboardButton(\"🗑️ حذف رابط\")],\n        [KeyboardButton(\"ℹ️ مساعدة\")],\n    ],\n    resize_keyboard=True,",
-        "detail": "bot",
-        "documentation": {}
-    },
-    {
-        "label": "MAIN_MENU",
-        "kind": 5,
-        "importPath": "bot",
-        "description": "bot",
-        "peekOfCode": "MAIN_MENU = ReplyKeyboardMarkup(\n    [\n        [KeyboardButton(\"➕ إضافة رابط\")],\n        [KeyboardButton(\"📁 عرض الروابط\"), KeyboardButton(\"🗑️ حذف رابط\")],\n        [KeyboardButton(\"ℹ️ مساعدة\")],\n    ],\n    resize_keyboard=True,\n)\nMENU_TEXT = \"مرحبا بك في Trackly Bot 🚀\"\n# ================= HANDLERS =================",
-        "detail": "bot",
-        "documentation": {}
-    },
-    {
-        "label": "MENU_TEXT",
-        "kind": 5,
-        "importPath": "bot",
-        "description": "bot",
-        "peekOfCode": "MENU_TEXT = \"مرحبا بك في Trackly Bot 🚀\"\n# ================= HANDLERS =================\nasync def start(update: Update, context: ContextTypes.DEFAULT_TYPE):\n    await update.message.reply_text(MENU_TEXT, reply_markup=MAIN_MENU)\nasync def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):\n    await update.message.reply_text(\"استخدم الأزرار 👇\", reply_markup=MAIN_MENU)\nasync def prompt_add_link(update: Update, context: ContextTypes.DEFAULT_TYPE):\n    await update.message.reply_text(\"ابعت الرابط:\", reply_markup=ReplyKeyboardRemove())\n    return ADD_LINK\nasync def receive_link(update: Update, context: ContextTypes.DEFAULT_TYPE):",
+        "peekOfCode": "application = ApplicationBuilder().token(BOT_TOKEN).build()\n# ================= WEBHOOK HANDLER =================\nasync def webhook_handler(request):\n    data = await request.json()\n    update = Update.de_json(data, application.bot)\n    # ✔️ correct way (safe with PTB async)\n    await application.update_queue.put(update)\n    return web.Response(text=\"ok\")\n# ================= MAIN =================\nasync def main():",
         "detail": "bot",
         "documentation": {}
     },
@@ -287,7 +390,7 @@
         "kind": 5,
         "importPath": "config",
         "description": "config",
-        "peekOfCode": "BOT_TOKEN = os.getenv(\"BOT_TOKEN\")\nCHECK_INTERVAL = int(os.getenv(\"CHECK_INTERVAL\", 60))\nWEBHOOK_URL = os.getenv(\"WEBHOOK_URL\")\nPORT = int(os.getenv(\"PORT\", 8000))",
+        "peekOfCode": "BOT_TOKEN = os.getenv(\"BOT_TOKEN\")\nCHECK_INTERVAL = int(os.getenv(\"CHECK_INTERVAL\", 60))\nWEBHOOK_URL = os.getenv(\"WEBHOOK_URL\")\nPORT = int(os.getenv(\"PORT\", 8000))\nADMIN_ID = int(os.getenv(\"ADMIN_ID\", 0))",
         "detail": "config",
         "documentation": {}
     },
@@ -296,7 +399,7 @@
         "kind": 5,
         "importPath": "config",
         "description": "config",
-        "peekOfCode": "CHECK_INTERVAL = int(os.getenv(\"CHECK_INTERVAL\", 60))\nWEBHOOK_URL = os.getenv(\"WEBHOOK_URL\")\nPORT = int(os.getenv(\"PORT\", 8000))",
+        "peekOfCode": "CHECK_INTERVAL = int(os.getenv(\"CHECK_INTERVAL\", 60))\nWEBHOOK_URL = os.getenv(\"WEBHOOK_URL\")\nPORT = int(os.getenv(\"PORT\", 8000))\nADMIN_ID = int(os.getenv(\"ADMIN_ID\", 0))",
         "detail": "config",
         "documentation": {}
     },
@@ -305,7 +408,7 @@
         "kind": 5,
         "importPath": "config",
         "description": "config",
-        "peekOfCode": "WEBHOOK_URL = os.getenv(\"WEBHOOK_URL\")\nPORT = int(os.getenv(\"PORT\", 8000))",
+        "peekOfCode": "WEBHOOK_URL = os.getenv(\"WEBHOOK_URL\")\nPORT = int(os.getenv(\"PORT\", 8000))\nADMIN_ID = int(os.getenv(\"ADMIN_ID\", 0))",
         "detail": "config",
         "documentation": {}
     },
@@ -314,7 +417,16 @@
         "kind": 5,
         "importPath": "config",
         "description": "config",
-        "peekOfCode": "PORT = int(os.getenv(\"PORT\", 8000))",
+        "peekOfCode": "PORT = int(os.getenv(\"PORT\", 8000))\nADMIN_ID = int(os.getenv(\"ADMIN_ID\", 0))",
+        "detail": "config",
+        "documentation": {}
+    },
+    {
+        "label": "ADMIN_ID",
+        "kind": 5,
+        "importPath": "config",
+        "description": "config",
+        "peekOfCode": "ADMIN_ID = int(os.getenv(\"ADMIN_ID\", 0))",
         "detail": "config",
         "documentation": {}
     },
@@ -350,7 +462,7 @@
         "kind": 2,
         "importPath": "database",
         "description": "database",
-        "peekOfCode": "def delete_link(user_id, url):\n    cursor.execute(\"DELETE FROM links WHERE user_id=? AND url=?\", (user_id, url))\n    deleted = cursor.rowcount\n    conn.commit()\n    return deleted > 0\ndef update_content(link_id, content):\n    cursor.execute(\"UPDATE links SET last_content=? WHERE id=?\",\n                   (content, link_id))\n    conn.commit()",
+        "peekOfCode": "def delete_link(user_id, url):\n    cursor.execute(\"DELETE FROM links WHERE user_id=? AND url=?\", (user_id, url))\n    deleted = cursor.rowcount\n    conn.commit()\n    return deleted > 0\ndef update_content(link_id, content):\n    cursor.execute(\"UPDATE links SET last_content=? WHERE id=?\",\n                   (content, link_id))\n    conn.commit()\ndef get_user_plan(user_id):",
         "detail": "database",
         "documentation": {}
     },
@@ -359,7 +471,52 @@
         "kind": 2,
         "importPath": "database",
         "description": "database",
-        "peekOfCode": "def update_content(link_id, content):\n    cursor.execute(\"UPDATE links SET last_content=? WHERE id=?\",\n                   (content, link_id))\n    conn.commit()",
+        "peekOfCode": "def update_content(link_id, content):\n    cursor.execute(\"UPDATE links SET last_content=? WHERE id=?\",\n                   (content, link_id))\n    conn.commit()\ndef get_user_plan(user_id):\n    cursor.execute(\"SELECT plan FROM users WHERE user_id=?\", (user_id,))\n    row = cursor.fetchone()\n    if row:\n        return row[0]\n    else:",
+        "detail": "database",
+        "documentation": {}
+    },
+    {
+        "label": "get_user_plan",
+        "kind": 2,
+        "importPath": "database",
+        "description": "database",
+        "peekOfCode": "def get_user_plan(user_id):\n    cursor.execute(\"SELECT plan FROM users WHERE user_id=?\", (user_id,))\n    row = cursor.fetchone()\n    if row:\n        return row[0]\n    else:\n        cursor.execute(\"INSERT INTO users (user_id, plan) VALUES (?, 'free')\", (user_id,))\n        conn.commit()\n        return 'free'\ndef update_user_plan(user_id, plan):",
+        "detail": "database",
+        "documentation": {}
+    },
+    {
+        "label": "update_user_plan",
+        "kind": 2,
+        "importPath": "database",
+        "description": "database",
+        "peekOfCode": "def update_user_plan(user_id, plan):\n    get_user_plan(user_id) # ensure user exists before updating\n    cursor.execute(\"UPDATE users SET plan=? WHERE user_id=?\", (plan, user_id))\n    conn.commit()\ndef get_user_link_count(user_id):\n    cursor.execute(\"SELECT COUNT(*) FROM links WHERE user_id=?\", (user_id,))\n    return cursor.fetchone()[0]\ndef get_stats():\n    cursor.execute(\"SELECT COUNT(*) FROM users\")\n    users = cursor.fetchone()[0]",
+        "detail": "database",
+        "documentation": {}
+    },
+    {
+        "label": "get_user_link_count",
+        "kind": 2,
+        "importPath": "database",
+        "description": "database",
+        "peekOfCode": "def get_user_link_count(user_id):\n    cursor.execute(\"SELECT COUNT(*) FROM links WHERE user_id=?\", (user_id,))\n    return cursor.fetchone()[0]\ndef get_stats():\n    cursor.execute(\"SELECT COUNT(*) FROM users\")\n    users = cursor.fetchone()[0]\n    cursor.execute(\"SELECT COUNT(*) FROM links\")\n    links = cursor.fetchone()[0]\n    return users, links\ndef get_all_users():",
+        "detail": "database",
+        "documentation": {}
+    },
+    {
+        "label": "get_stats",
+        "kind": 2,
+        "importPath": "database",
+        "description": "database",
+        "peekOfCode": "def get_stats():\n    cursor.execute(\"SELECT COUNT(*) FROM users\")\n    users = cursor.fetchone()[0]\n    cursor.execute(\"SELECT COUNT(*) FROM links\")\n    links = cursor.fetchone()[0]\n    return users, links\ndef get_all_users():\n    cursor.execute(\"SELECT user_id FROM users\")\n    return [row[0] for row in cursor.fetchall()]",
+        "detail": "database",
+        "documentation": {}
+    },
+    {
+        "label": "get_all_users",
+        "kind": 2,
+        "importPath": "database",
+        "description": "database",
+        "peekOfCode": "def get_all_users():\n    cursor.execute(\"SELECT user_id FROM users\")\n    return [row[0] for row in cursor.fetchall()]",
         "detail": "database",
         "documentation": {}
     },
@@ -377,8 +534,53 @@
         "kind": 5,
         "importPath": "database",
         "description": "database",
-        "peekOfCode": "cursor = conn.cursor()\ncursor.execute(\"\"\"\nCREATE TABLE IF NOT EXISTS links (\n    id INTEGER PRIMARY KEY AUTOINCREMENT,\n    user_id INTEGER,\n    url TEXT,\n    last_content TEXT\n)\n\"\"\")\nconn.commit()",
+        "peekOfCode": "cursor = conn.cursor()\ncursor.execute(\"\"\"\nCREATE TABLE IF NOT EXISTS links (\n    id INTEGER PRIMARY KEY AUTOINCREMENT,\n    user_id INTEGER,\n    url TEXT,\n    last_content TEXT\n)\n\"\"\")\ncursor.execute(\"\"\"",
         "detail": "database",
+        "documentation": {}
+    },
+    {
+        "label": "get_lang",
+        "kind": 2,
+        "importPath": "handlers",
+        "description": "handlers",
+        "peekOfCode": "def get_lang(update: Update, context: ContextTypes.DEFAULT_TYPE):\n    user_lang = context.user_data.get(\"lang\")\n    if user_lang:\n        return user_lang\n    tg_lang = update.effective_user.language_code or \"en\"\n    return \"ar\" if tg_lang.startswith(\"ar\") else \"en\"\ndef t(update, context, key):\n    lang = get_lang(update, context)\n    return TEXTS.get(lang, TEXTS[\"en\"]).get(key, key)\ndef build_menu(lang: str):",
+        "detail": "handlers",
+        "documentation": {}
+    },
+    {
+        "label": "t",
+        "kind": 2,
+        "importPath": "handlers",
+        "description": "handlers",
+        "peekOfCode": "def t(update, context, key):\n    lang = get_lang(update, context)\n    return TEXTS.get(lang, TEXTS[\"en\"]).get(key, key)\ndef build_menu(lang: str):\n    return ReplyKeyboardMarkup(\n        [\n            [KeyboardButton(TEXTS[lang][\"add_link\"])],\n            [KeyboardButton(TEXTS[lang][\"list_links\"]), KeyboardButton(TEXTS[lang][\"delete_link\"])],\n            [KeyboardButton(TEXTS[lang][\"lang\"]), KeyboardButton(TEXTS[lang][\"plans\"])],\n            [KeyboardButton(TEXTS[lang][\"help\"])],",
+        "detail": "handlers",
+        "documentation": {}
+    },
+    {
+        "label": "build_menu",
+        "kind": 2,
+        "importPath": "handlers",
+        "description": "handlers",
+        "peekOfCode": "def build_menu(lang: str):\n    return ReplyKeyboardMarkup(\n        [\n            [KeyboardButton(TEXTS[lang][\"add_link\"])],\n            [KeyboardButton(TEXTS[lang][\"list_links\"]), KeyboardButton(TEXTS[lang][\"delete_link\"])],\n            [KeyboardButton(TEXTS[lang][\"lang\"]), KeyboardButton(TEXTS[lang][\"plans\"])],\n            [KeyboardButton(TEXTS[lang][\"help\"])],\n        ],\n        resize_keyboard=True,\n    )",
+        "detail": "handlers",
+        "documentation": {}
+    },
+    {
+        "label": "TEXTS",
+        "kind": 5,
+        "importPath": "lang",
+        "description": "lang",
+        "peekOfCode": "TEXTS = {\n    \"ar\": {\n        \"menu\": \"مرحبا بك في Trackly Bot 🚀\",\n        \"add_link\": \"➕ إضافة رابط\",\n        \"list_links\": \"📁 عرض الروابط\",\n        \"delete_link\": \"🗑️ حذف رابط\",\n        \"help\": \"ℹ️ الدعم\",\n        \"help_message\": \"للتواصل والدعم:\\n✉️ البريد الإلكتروني: 7assanosama@gmail.com\\n📞 واتساب: https://wa.me/201029231051\\n✈️ تيليجرام: @osmo1051\",\n        \"send_link\": \"ابعت الرابط:\",\n        \"invalid_url\": \"❌ رابط غير صالح\",",
+        "detail": "lang",
+        "documentation": {}
+    },
+    {
+        "label": "get_diff",
+        "kind": 2,
+        "importPath": "monitor",
+        "description": "monitor",
+        "peekOfCode": "def get_diff(old, new, lang_dict):\n    diff = list(difflib.unified_diff(\n        old.splitlines(),\n        new.splitlines(),\n        n=0,\n        lineterm=\"\"\n    ))\n    additions = []\n    deletions = []\n    for line in diff:",
+        "detail": "monitor",
         "documentation": {}
     },
     {
