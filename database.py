@@ -105,7 +105,7 @@ def get_user_expiry(user_id):
     if row and row[0]:
         return row[0]
     else:
-        # Default to 30 days from now if missing
+        # Default to 3 days from now if missing
         get_user_limit(user_id) # ensure user exists
         cursor.execute("SELECT expiry_date FROM users WHERE user_id=?", (user_id,))
         row = cursor.fetchone()
