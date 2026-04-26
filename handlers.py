@@ -131,6 +131,10 @@ async def broadcast_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
         return
 
     lang = get_lang(update, context)
+    
+    # تسجيل المشرف تلقائياً في قاعدة البيانات ليصله البث
+    get_user_plan(update.effective_chat.id)
+    
     message = " ".join(context.args)
     if not message:
         await update.message.reply_text(TEXTS[lang]["broadcast_usage"], parse_mode="Markdown")
@@ -138,6 +142,7 @@ async def broadcast_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     users = get_all_users()
     count = 0
+    failed = 0
     prefix = TEXTS[lang]["broadcast_prefix"].format(message=message)
     for u_id in users:
         try:
@@ -145,8 +150,11 @@ async def broadcast_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
             count += 1
         except Exception as e:
             print(f"Failed to send to {u_id}: {e}")
+            failed += 1
 
     msg = TEXTS[lang]["broadcast_sent"].format(count=count)
+    if failed > 0:
+        msg += f"\n❌ فشل الإرسال إلى {failed} مستخدم."
     await update.message.reply_text(msg)
 
 
