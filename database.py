@@ -93,7 +93,7 @@ def get_user_limit(user_id):
     if row:
         return row[0]
     else:
-        expiry = (datetime.now() + timedelta(days=30)).strftime("%Y-%m-%d %H:%M:%S")
+        expiry = (datetime.now() + timedelta(days=3)).strftime("%Y-%m-%d %H:%M:%S")
         cursor.execute("INSERT INTO users (user_id, plan, phone, max_links, expiry_date) VALUES (?, 'free', 'غير متوفر', 1, ?)", (user_id, expiry))
         conn.commit()
         return 1
