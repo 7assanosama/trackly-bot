@@ -1,7 +1,7 @@
 from telegram import Update, ReplyKeyboardMarkup, ReplyKeyboardRemove, KeyboardButton, InlineKeyboardMarkup, InlineKeyboardButton
 from telegram.ext import ContextTypes, ConversationHandler
 
-from database import add_link, delete_link, get_user_links, get_user_plan, get_user_link_count, update_user_plan, get_stats, get_all_users, get_users_info, get_user_phone, update_user_phone
+from database import add_link, delete_link, get_user_links, get_user_limit, get_user_link_count, update_user_limit, get_stats, get_all_users, get_users_info, get_user_phone, update_user_phone
 from utils import fetch_content
 from lang import TEXTS
 from config import ADMIN_ID
@@ -48,7 +48,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         )
         return
 
-    get_user_plan(user_id) # Save user to DB if not exists
+    get_user_limit(user_id) # Save user to DB if not exists
     await update.message.reply_text(
         TEXTS[lang]["menu"],
         reply_markup=build_menu(lang)
@@ -64,13 +64,12 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def my_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     lang = get_lang(update, context)
     user_id = update.effective_user.id
-    user_plan = get_user_plan(user_id)
+    user_limit = get_user_limit(user_id)
+    links_count = get_user_link_count(user_id)
     user_phone = get_user_phone(user_id)
     if user_phone == 'غير متوفر' or not user_phone:
         user_phone = TEXTS[lang].get("not_available", "غير متوفر")
-    plan_map = {"free": TEXTS[lang]["plan_free"], "basic": TEXTS[lang]["plan_basic"], "pro": TEXTS[lang]["plan_pro"]}
-    plan_text = plan_map.get(user_plan, user_plan)
-    msg = TEXTS[lang]["my_account_info"].format(user_id=user_id, phone=user_phone, plan_text=plan_text)
+    msg = TEXTS[lang]["my_account_info"].format(user_id=user_id, phone=user_phone, count=links_count, limit=user_limit)
     await update.message.reply_text(msg, parse_mode="Markdown")
 
 
@@ -82,23 +81,23 @@ async def plans_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 # ================= ADMIN =================
-async def set_plan_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
+async def set_limit_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if update.effective_user.id != ADMIN_ID:
         return
 
     lang = get_lang(update, context)
     try:
         user_id = int(context.args[0])
-        plan = context.args[1].lower()
+        limit = int(context.args[1])
 
-        if plan not in ["free", "basic", "pro"]:
+        if limit < 0:
             raise ValueError()
 
-        update_user_plan(user_id, plan)
-        msg = TEXTS[lang]["admin_plan_upgraded"].format(user_id=user_id, plan=plan)
+        update_user_limit(user_id, limit)
+        msg = TEXTS[lang]["admin_limit_updated"].format(user_id=user_id, limit=limit)
         await update.message.reply_text(msg, parse_mode="Markdown")
     except (IndexError, ValueError):
-        await update.message.reply_text(TEXTS[lang]["admin_plan_usage"], parse_mode="Markdown")
+        await update.message.reply_text(TEXTS[lang]["admin_limit_usage"], parse_mode="Markdown")
 
 
 async def admin_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -109,7 +108,7 @@ async def admin_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     keyboard = [
         [InlineKeyboardButton(TEXTS[lang]["admin_btn_stats"], callback_data="admin_stats")],
         [InlineKeyboardButton(TEXTS[lang]["admin_btn_users"], callback_data="admin_users")],
-        [InlineKeyboardButton(TEXTS[lang]["admin_btn_upgrade"], callback_data="admin_upgrade")],
+        [InlineKeyboardButton(TEXTS[lang]["admin_btn_limit"], callback_data="admin_limit")],
         [InlineKeyboardButton(TEXTS[lang]["admin_btn_broadcast"], callback_data="admin_broadcast")]
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
@@ -134,20 +133,18 @@ async def admin_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
     elif data == "admin_users":
         users_info = get_users_info()
         text = TEXTS[lang]["admin_users_title"]
-        for uid, plan, phone, count in users_info:
+        for uid, limit, phone, count in users_info:
             if phone == 'غير متوفر' or not phone:
                 phone = TEXTS[lang].get("not_available", "غير متوفر")
-            plan_map = {"free": TEXTS[lang]["plan_free"], "basic": TEXTS[lang]["plan_basic"], "pro": TEXTS[lang]["plan_pro"]}
-            p_text = plan_map.get(plan, plan)
-            text += TEXTS[lang]["admin_users_row"].format(user_id=uid, phone=phone, plan=p_text, count=count)
+            text += TEXTS[lang]["admin_users_row"].format(user_id=uid, phone=phone, count=count, limit=limit)
         
         if len(text) > 4000:
             text = text[:4000] + "\n... (المزيد / More)"
             
         await query.edit_message_text(text, parse_mode="Markdown")
         
-    elif data == "admin_upgrade":
-        text = TEXTS[lang]["admin_upgrade_msg"]
+    elif data == "admin_limit":
+        text = TEXTS[lang]["admin_limit_msg"]
         await query.edit_message_text(text, parse_mode="Markdown")
         
     elif data == "admin_broadcast":
@@ -162,7 +159,7 @@ async def broadcast_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     lang = get_lang(update, context)
     
     # تسجيل المشرف تلقائياً في قاعدة البيانات ليصله البث
-    get_user_plan(update.effective_chat.id)
+    get_user_limit(update.effective_chat.id)
     
     message = " ".join(context.args)
     if not message:
@@ -222,13 +219,10 @@ async def prompt_add_link(update: Update, context: ContextTypes.DEFAULT_TYPE):
     lang = get_lang(update, context)
 
     # Check Plan Limit
-    user_plan = get_user_plan(user_id)
+    user_limit = get_user_limit(user_id)
     links_count = get_user_link_count(user_id)
-    
-    limits = {"free": 1, "basic": 10}
-    limit = limits.get(user_plan)
 
-    if limit is not None and links_count >= limit:
+    if links_count >= user_limit:
         await update.message.reply_text(TEXTS[lang]["limit_reached"], reply_markup=build_menu(lang))
         return ConversationHandler.END
 
