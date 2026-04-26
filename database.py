@@ -12,7 +12,7 @@ conn = mysql.connector.connect(
     user=parsed.username,
     password=parsed.password,
     database=parsed.path.lstrip("/"),
-    port=parsed.port
+    port=int(parsed.port) if parsed.port else 3306
 )
 
 cursor = conn.cursor()
