@@ -32,8 +32,8 @@ cursor.execute(
     """
 CREATE TABLE IF NOT EXISTS users (
     user_id INTEGER PRIMARY KEY,
-    plan TEXT DEFAULT 'free',
-    phone TEXT DEFAULT 'غير متوفر',
+    plan VARCHAR(255) DEFAULT 'free',
+    phone VARCHAR(255) DEFAULT 'غير متوفر',
     max_links INTEGER DEFAULT 1,
     expiry_date DATETIME,
     last_warning_sent INTEGER DEFAULT -1
@@ -42,7 +42,7 @@ CREATE TABLE IF NOT EXISTS users (
 )
 
 try:
-    cursor.execute("ALTER TABLE users ADD COLUMN phone TEXT DEFAULT 'غير متوفر'")
+    cursor.execute("ALTER TABLE users ADD COLUMN phone VARCHAR(255) DEFAULT 'غير متوفر'")
 except mysql.connector.Error:
     pass
 
