@@ -30,7 +30,6 @@ def build_menu(lang: str):
             [KeyboardButton(TEXTS[lang]["list_links"]), KeyboardButton(TEXTS[lang]["delete_link"])],
             [KeyboardButton(TEXTS[lang]["lang"]), KeyboardButton(TEXTS[lang]["plans"])],
             [KeyboardButton(TEXTS[lang]["my_account"]), KeyboardButton(TEXTS[lang]["help"])],
-            [KeyboardButton(TEXTS[lang]["share_contact"], request_contact=True)],
         ],
         resize_keyboard=True,
     )
@@ -39,6 +38,16 @@ def build_menu(lang: str):
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     lang = get_lang(update, context)
     user_id = update.effective_chat.id
+    user_phone = get_user_phone(user_id)
+
+    if user_phone == 'غير متوفر' or not user_phone:
+        keyboard = [[KeyboardButton(TEXTS[lang]["share_contact"], request_contact=True)]]
+        await update.message.reply_text(
+            TEXTS[lang]["request_phone"],
+            reply_markup=ReplyKeyboardMarkup(keyboard, resize_keyboard=True)
+        )
+        return
+
     get_user_plan(user_id) # Save user to DB if not exists
     await update.message.reply_text(
         TEXTS[lang]["menu"],
@@ -293,4 +302,5 @@ async def contact_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         phone = contact.phone_number
         update_user_phone(update.effective_user.id, phone)
         lang = get_lang(update, context)
-        await update.message.reply_text(TEXTS[lang]["phone_updated"], reply_markup=build_menu(lang))
+        await update.message.reply_text(TEXTS[lang]["phone_updated"])
+        await update.message.reply_text(TEXTS[lang]["menu"], reply_markup=build_menu(lang))
