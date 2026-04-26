@@ -49,6 +49,7 @@ TEXTS = {
         "broadcast_sent": "✅ تم إرسال الرسالة إلى {count} مستخدم.",
         "share_contact": "📱 مشاركة رقم الهاتف",
         "phone_updated": "✅ تم تحديث رقم الهاتف بنجاح!",
+        "not_available": "غير متوفر",
     },
     "en": {
         "menu": "Welcome to Trackly Bot 🚀",
@@ -99,5 +100,6 @@ TEXTS = {
         "broadcast_sent": "✅ Message sent to {count} users.",
         "share_contact": "📱 Share Phone Number",
         "phone_updated": "✅ Phone number updated successfully!",
+        "not_available": "Not available",
     }
 }

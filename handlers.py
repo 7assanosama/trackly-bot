@@ -57,6 +57,8 @@ async def my_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_id = update.effective_user.id
     user_plan = get_user_plan(user_id)
     user_phone = get_user_phone(user_id)
+    if user_phone == 'غير متوفر' or not user_phone:
+        user_phone = TEXTS[lang].get("not_available", "غير متوفر")
     plan_map = {"free": TEXTS[lang]["plan_free"], "basic": TEXTS[lang]["plan_basic"], "pro": TEXTS[lang]["plan_pro"]}
     plan_text = plan_map.get(user_plan, user_plan)
     msg = TEXTS[lang]["my_account_info"].format(user_id=user_id, phone=user_phone, plan_text=plan_text)
@@ -124,6 +126,8 @@ async def admin_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
         users_info = get_users_info()
         text = TEXTS[lang]["admin_users_title"]
         for uid, plan, phone, count in users_info:
+            if phone == 'غير متوفر' or not phone:
+                phone = TEXTS[lang].get("not_available", "غير متوفر")
             plan_map = {"free": TEXTS[lang]["plan_free"], "basic": TEXTS[lang]["plan_basic"], "pro": TEXTS[lang]["plan_pro"]}
             p_text = plan_map.get(plan, plan)
             text += TEXTS[lang]["admin_users_row"].format(user_id=uid, phone=phone, plan=p_text, count=count)
