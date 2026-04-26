@@ -2,7 +2,7 @@ import sqlite3
 import os
 from datetime import datetime, timedelta
 
-conn = sqlite3.connect(os.getenv("DB_PATH", "data.db"), check_same_thread=False)
+conn = sqlite3.connect(os.getenv("DB_URL", "data.db"), check_same_thread=False)
 cursor = conn.cursor()
 
 cursor.execute(
