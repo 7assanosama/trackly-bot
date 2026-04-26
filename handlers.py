@@ -72,7 +72,7 @@ async def my_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if user_phone == 'غير متوفر' or not user_phone:
         user_phone = TEXTS[lang].get("not_available", "غير متوفر")
     
-    expiry_text = user_expiry if user_expiry else "غير متوفر"
+    expiry_text = user_expiry if user_expiry else TEXTS[lang].get("not_available", "غير متوفر")
     is_expired = False
     if user_expiry:
         is_expired = datetime.strptime(user_expiry, "%Y-%m-%d %H:%M:%S") < datetime.now()
