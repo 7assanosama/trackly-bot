@@ -29,7 +29,7 @@ def build_menu(lang: str):
             [KeyboardButton(TEXTS[lang]["add_link"])],
             [KeyboardButton(TEXTS[lang]["list_links"]), KeyboardButton(TEXTS[lang]["delete_link"])],
             [KeyboardButton(TEXTS[lang]["lang"]), KeyboardButton(TEXTS[lang]["plans"])],
-            [KeyboardButton(TEXTS[lang]["help"])],
+            [KeyboardButton(TEXTS[lang]["my_account"]), KeyboardButton(TEXTS[lang]["help"])],
         ],
         resize_keyboard=True,
     )
@@ -50,8 +50,12 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 async def my_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    lang = get_lang(update, context)
     user_id = update.effective_user.id
-    msg = f"رقم الـ ID الخاص بك هو:\n`{user_id}`"
+    user_plan = get_user_plan(user_id)
+    plan_map = {"free": TEXTS[lang]["plan_free"], "basic": TEXTS[lang]["plan_basic"], "pro": TEXTS[lang]["plan_pro"]}
+    plan_text = plan_map.get(user_plan, user_plan)
+    msg = TEXTS[lang]["my_account_info"].format(user_id=user_id, plan_text=plan_text)
     await update.message.reply_text(msg, parse_mode="Markdown")
 
 
@@ -67,6 +71,7 @@ async def set_plan_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if update.effective_user.id != ADMIN_ID:
         return
 
+    lang = get_lang(update, context)
     try:
         user_id = int(context.args[0])
         plan = context.args[1].lower()
@@ -75,28 +80,31 @@ async def set_plan_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
             raise ValueError()
 
         update_user_plan(user_id, plan)
-        await update.message.reply_text(f"✅ User `{user_id}` upgraded to `{plan}` plan.", parse_mode="Markdown")
+        msg = TEXTS[lang]["admin_plan_upgraded"].format(user_id=user_id, plan=plan)
+        await update.message.reply_text(msg, parse_mode="Markdown")
     except (IndexError, ValueError):
-        await update.message.reply_text("❌ Usage: `/set_plan <user_id> <free/basic/pro>`", parse_mode="Markdown")
+        await update.message.reply_text(TEXTS[lang]["admin_plan_usage"], parse_mode="Markdown")
 
 
 async def admin_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if update.effective_user.id != ADMIN_ID:
         return
         
+    lang = get_lang(update, context)
     keyboard = [
-        [InlineKeyboardButton("📊 الإحصائيات", callback_data="admin_stats")],
-        [InlineKeyboardButton("💎 ترقية حساب", callback_data="admin_upgrade")],
-        [InlineKeyboardButton("📢 رسالة للجميع", callback_data="admin_broadcast")]
+        [InlineKeyboardButton(TEXTS[lang]["admin_btn_stats"], callback_data="admin_stats")],
+        [InlineKeyboardButton(TEXTS[lang]["admin_btn_upgrade"], callback_data="admin_upgrade")],
+        [InlineKeyboardButton(TEXTS[lang]["admin_btn_broadcast"], callback_data="admin_broadcast")]
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
-    await update.message.reply_text("🛠️ **لوحة تحكم الإدارة:**", reply_markup=reply_markup, parse_mode="Markdown")
+    await update.message.reply_text(TEXTS[lang]["admin_panel"], reply_markup=reply_markup, parse_mode="Markdown")
 
 
 async def admin_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
+    lang = get_lang(update, context)
     if query.from_user.id != ADMIN_ID:
-        await query.answer("❌ غير مصرح.", show_alert=True)
+        await query.answer(TEXTS[lang]["admin_unauthorized"], show_alert=True)
         return
         
     data = query.data
@@ -104,15 +112,15 @@ async def admin_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     if data == "admin_stats":
         users, links = get_stats()
-        text = f"📊 **الإحصائيات الحالية:**\n\n👤 المستخدمين: {users}\n🔗 الروابط النشطة: {links}"
+        text = TEXTS[lang]["admin_stats_msg"].format(users=users, links=links)
         await query.edit_message_text(text, parse_mode="Markdown")
         
     elif data == "admin_upgrade":
-        text = "لترقية أي حساب، يرجى كتابة الأمر التالي:\n`/set_plan <user_id> <free/basic/pro>`\n\nمثال:\n`/set_plan 123456 pro`"
+        text = TEXTS[lang]["admin_upgrade_msg"]
         await query.edit_message_text(text, parse_mode="Markdown")
         
     elif data == "admin_broadcast":
-        text = "لإرسال رسالة لجميع المستخدمين، اكتب الأمر التالي متبوعاً بالرسالة:\n`/broadcast <رسالتك هنا>`"
+        text = TEXTS[lang]["admin_broadcast_msg"]
         await query.edit_message_text(text, parse_mode="Markdown")
 
 
@@ -120,21 +128,24 @@ async def broadcast_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if update.effective_user.id != ADMIN_ID:
         return
 
+    lang = get_lang(update, context)
     message = " ".join(context.args)
     if not message:
-        await update.message.reply_text("❌ يجب كتابة الرسالة بعد الأمر.\nمثال: `/broadcast السلام عليكم`", parse_mode="Markdown")
+        await update.message.reply_text(TEXTS[lang]["broadcast_usage"], parse_mode="Markdown")
         return
 
     users = get_all_users()
     count = 0
+    prefix = TEXTS[lang]["broadcast_prefix"].format(message=message)
     for u_id in users:
         try:
-            await context.bot.send_message(chat_id=u_id, text=f"📢 **رسالة إدارية:**\n\n{message}", parse_mode="Markdown")
+            await context.bot.send_message(chat_id=u_id, text=prefix, parse_mode="Markdown")
             count += 1
         except Exception:
             pass
 
-    await update.message.reply_text(f"✅ تم إرسال الرسالة إلى {count} مستخدم.")
+    msg = TEXTS[lang]["broadcast_sent"].format(count=count)
+    await update.message.reply_text(msg)
 
 
 # ================= LANGUAGE =================
