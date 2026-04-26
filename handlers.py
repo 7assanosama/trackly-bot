@@ -72,11 +72,12 @@ async def my_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if user_phone == 'غير متوفر' or not user_phone:
         user_phone = TEXTS[lang].get("not_available", "غير متوفر")
     
-    expiry_text = user_expiry if user_expiry else TEXTS[lang].get("not_available", "غير متوفر")
+    expiry_text = str(user_expiry) if user_expiry else TEXTS[lang].get("not_available", "غير متوفر")
     is_expired = False
     if user_expiry:
-        is_expired = datetime.strptime(user_expiry, "%Y-%m-%d %H:%M:%S") < datetime.now()
-        if is_expired:
+        expiry_dt = user_expiry if isinstance(user_expiry, datetime) else datetime.strptime(user_expiry, "%Y-%m-%d %H:%M:%S")
+        if expiry_dt < datetime.now():
+            is_expired = True
             expiry_text += " (منتهي ❌)" if lang == "ar" else " (Expired ❌)"
 
     msg = TEXTS[lang]["my_account_info"].format(user_id=user_id, phone=user_phone, count=links_count, limit=user_limit, expiry=expiry_text)
@@ -233,9 +234,11 @@ async def prompt_add_link(update: Update, context: ContextTypes.DEFAULT_TYPE):
     links_count = get_user_link_count(user_id)
 
     user_expiry = get_user_expiry(user_id)
-    if user_expiry and datetime.strptime(user_expiry, "%Y-%m-%d %H:%M:%S") < datetime.now():
-        await update.message.reply_text(TEXTS[lang]["expired_message"], reply_markup=build_menu(lang))
-        return ConversationHandler.END
+    if user_expiry:
+        expiry_dt = user_expiry if isinstance(user_expiry, datetime) else datetime.strptime(user_expiry, "%Y-%m-%d %H:%M:%S")
+        if expiry_dt < datetime.now():
+            await update.message.reply_text(TEXTS[lang]["expired_message"], reply_markup=build_menu(lang))
+            return ConversationHandler.END
 
     if links_count >= user_limit:
         await update.message.reply_text(TEXTS[lang]["limit_reached"], reply_markup=build_menu(lang))

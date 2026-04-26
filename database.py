@@ -17,6 +17,15 @@ conn = mysql.connector.connect(
 
 cursor = conn.cursor()
 
+def ensure_conn():
+    global cursor
+    try:
+        conn.ping(reconnect=True, attempts=3, delay=2)
+    except:
+        pass
+    cursor = conn.cursor() # Always get fresh cursor to be safe
+
+
 cursor.execute(
     """
 CREATE TABLE IF NOT EXISTS links (
@@ -75,6 +84,7 @@ conn.commit()
 
 
 def add_link(user_id, url, content):
+    ensure_conn()
     cursor.execute(
         "INSERT INTO links (user_id, url, last_content) VALUES (%s, %s, %s)",
         (user_id, url, content),
@@ -83,11 +93,13 @@ def add_link(user_id, url, content):
 
 
 def get_links():
+    ensure_conn()
     cursor.execute("SELECT * FROM links")
     return cursor.fetchall()
 
 
 def get_active_links():
+    ensure_conn()
     cursor.execute(
         """
         SELECT l.id, l.user_id, l.url, l.last_content
@@ -100,11 +112,13 @@ def get_active_links():
 
 
 def get_user_links(user_id):
+    ensure_conn()
     cursor.execute("SELECT * FROM links WHERE user_id=%s", (user_id,))
     return cursor.fetchall()
 
 
 def delete_link(user_id, url):
+    ensure_conn()
     cursor.execute("DELETE FROM links WHERE user_id=%s AND url=%s", (user_id, url))
     deleted = cursor.rowcount
     conn.commit()
@@ -112,11 +126,13 @@ def delete_link(user_id, url):
 
 
 def update_content(link_id, content):
+    ensure_conn()
     cursor.execute("UPDATE links SET last_content=%s WHERE id=%s", (content, link_id))
     conn.commit()
 
 
 def get_user_limit(user_id):
+    ensure_conn()
     cursor.execute("SELECT max_links FROM users WHERE user_id=%s", (user_id,))
     row = cursor.fetchone()
     if row:
@@ -132,6 +148,7 @@ def get_user_limit(user_id):
 
 
 def get_user_expiry(user_id):
+    ensure_conn()
     cursor.execute("SELECT expiry_date FROM users WHERE user_id=%s", (user_id,))
     row = cursor.fetchone()
     if row and row[0]:
@@ -139,6 +156,7 @@ def get_user_expiry(user_id):
     else:
         # Default to 3 days from now if missing
         get_user_limit(user_id)  # ensure user exists
+        ensure_conn()
         cursor.execute("SELECT expiry_date FROM users WHERE user_id=%s", (user_id,))
         row = cursor.fetchone()
         return row[0] if row and row[0] else None
@@ -146,6 +164,7 @@ def get_user_expiry(user_id):
 
 def update_user_limit(user_id, limit):
     get_user_limit(user_id)  # ensure user exists before updating
+    ensure_conn()
     expiry = (datetime.now() + timedelta(days=30)).strftime("%Y-%m-%d %H:%M:%S")
     cursor.execute(
         "UPDATE users SET max_links=%s, expiry_date=%s, last_warning_sent=-1 WHERE user_id=%s",
@@ -155,6 +174,7 @@ def update_user_limit(user_id, limit):
 
 
 def get_user_phone(user_id):
+    ensure_conn()
     cursor.execute("SELECT phone FROM users WHERE user_id=%s", (user_id,))
     row = cursor.fetchone()
     return row[0] if row else "غير متوفر"
@@ -162,16 +182,19 @@ def get_user_phone(user_id):
 
 def update_user_phone(user_id, phone):
     get_user_limit(user_id)  # ensure user exists
+    ensure_conn()
     cursor.execute("UPDATE users SET phone=%s WHERE user_id=%s", (phone, user_id))
     conn.commit()
 
 
 def get_user_link_count(user_id):
+    ensure_conn()
     cursor.execute("SELECT COUNT(*) FROM links WHERE user_id=%s", (user_id,))
     return cursor.fetchone()[0]
 
 
 def get_stats():
+    ensure_conn()
     cursor.execute("SELECT COUNT(*) FROM users")
     users = cursor.fetchone()[0]
     cursor.execute("SELECT COUNT(*) FROM links")
@@ -180,11 +203,13 @@ def get_stats():
 
 
 def get_all_users():
+    ensure_conn()
     cursor.execute("SELECT user_id FROM users")
     return [row[0] for row in cursor.fetchall()]
 
 
 def get_all_users_expiry():
+    ensure_conn()
     cursor.execute(
         "SELECT user_id, expiry_date, last_warning_sent FROM users WHERE expiry_date IS NOT NULL"
     )
@@ -192,6 +217,7 @@ def get_all_users_expiry():
 
 
 def update_last_warning(user_id, warning_level):
+    ensure_conn()
     cursor.execute(
         "UPDATE users SET last_warning_sent=%s WHERE user_id=%s", (warning_level, user_id)
     )
@@ -199,12 +225,13 @@ def update_last_warning(user_id, warning_level):
 
 
 def get_users_info():
+    ensure_conn()
     cursor.execute(
         """
         SELECT u.user_id, u.max_links, u.phone, u.expiry_date, COUNT(l.id) as link_count
         FROM users u
         LEFT JOIN links l ON u.user_id = l.user_id
-        GROUP BY u.user_id
+        GROUP BY u.user_id, u.max_links, u.phone, u.expiry_date
     """
     )
     return cursor.fetchall()
