@@ -1,7 +1,7 @@
 from telegram import Update, ReplyKeyboardMarkup, ReplyKeyboardRemove, KeyboardButton, InlineKeyboardMarkup, InlineKeyboardButton
 from telegram.ext import ContextTypes, ConversationHandler
 
-from database import add_link, delete_link, get_user_links, get_user_plan, get_user_link_count, update_user_plan, get_stats, get_all_users, get_users_info
+from database import add_link, delete_link, get_user_links, get_user_plan, get_user_link_count, update_user_plan, get_stats, get_all_users, get_users_info, get_user_phone, update_user_phone
 from utils import fetch_content
 from lang import TEXTS
 from config import ADMIN_ID
@@ -30,6 +30,7 @@ def build_menu(lang: str):
             [KeyboardButton(TEXTS[lang]["list_links"]), KeyboardButton(TEXTS[lang]["delete_link"])],
             [KeyboardButton(TEXTS[lang]["lang"]), KeyboardButton(TEXTS[lang]["plans"])],
             [KeyboardButton(TEXTS[lang]["my_account"]), KeyboardButton(TEXTS[lang]["help"])],
+            [KeyboardButton(TEXTS[lang]["share_contact"], request_contact=True)],
         ],
         resize_keyboard=True,
     )
@@ -55,9 +56,10 @@ async def my_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     lang = get_lang(update, context)
     user_id = update.effective_user.id
     user_plan = get_user_plan(user_id)
+    user_phone = get_user_phone(user_id)
     plan_map = {"free": TEXTS[lang]["plan_free"], "basic": TEXTS[lang]["plan_basic"], "pro": TEXTS[lang]["plan_pro"]}
     plan_text = plan_map.get(user_plan, user_plan)
-    msg = TEXTS[lang]["my_account_info"].format(user_id=user_id, plan_text=plan_text)
+    msg = TEXTS[lang]["my_account_info"].format(user_id=user_id, phone=user_phone, plan_text=plan_text)
     await update.message.reply_text(msg, parse_mode="Markdown")
 
 
@@ -121,10 +123,10 @@ async def admin_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
     elif data == "admin_users":
         users_info = get_users_info()
         text = TEXTS[lang]["admin_users_title"]
-        for uid, plan, count in users_info:
+        for uid, plan, phone, count in users_info:
             plan_map = {"free": TEXTS[lang]["plan_free"], "basic": TEXTS[lang]["plan_basic"], "pro": TEXTS[lang]["plan_pro"]}
             p_text = plan_map.get(plan, plan)
-            text += TEXTS[lang]["admin_users_row"].format(user_id=uid, plan=p_text, count=count)
+            text += TEXTS[lang]["admin_users_row"].format(user_id=uid, phone=phone, plan=p_text, count=count)
         
         if len(text) > 4000:
             text = text[:4000] + "\n... (المزيد / More)"
@@ -279,3 +281,12 @@ async def cancel(update: Update, context: ContextTypes.DEFAULT_TYPE):
     lang = get_lang(update, context)
     await update.message.reply_text(TEXTS[lang]["cancel"], reply_markup=build_menu(lang))
     return ConversationHandler.END
+
+
+async def contact_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    contact = update.message.contact
+    if contact and contact.user_id == update.effective_user.id:
+        phone = contact.phone_number
+        update_user_phone(update.effective_user.id, phone)
+        lang = get_lang(update, context)
+        await update.message.reply_text(TEXTS[lang]["phone_updated"], reply_markup=build_menu(lang))

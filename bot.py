@@ -89,6 +89,7 @@ if __name__ == "__main__":
     application.add_handler(MessageHandler(filters.Regex("^(ℹ️ الدعم|ℹ️ support)$"), help_command))
     application.add_handler(MessageHandler(filters.Regex("^(👤 حسابي|👤 My Account)$"), my_command))
     application.add_handler(MessageHandler(filters.Regex("^(💎 خطط التسعير|💎 Pricing Plans)$"), plans_command))
+    application.add_handler(MessageHandler(filters.CONTACT, contact_handler))
 
     conv = ConversationHandler(
         entry_points=[
