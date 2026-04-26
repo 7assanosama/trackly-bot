@@ -144,10 +144,10 @@ async def admin_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
     elif data == "admin_users":
         users_info = get_users_info()
         text = TEXTS[lang]["admin_users_title"]
-        for uid, limit, phone, count in users_info:
+        for uid, limit, phone, expiry, count in users_info:
             if phone == 'غير متوفر' or not phone:
                 phone = TEXTS[lang].get("not_available", "غير متوفر")
-            text += TEXTS[lang]["admin_users_row"].format(user_id=uid, phone=phone, count=count, limit=limit)
+            text += TEXTS[lang]["admin_users_row"].format(user_id=uid, phone=phone, count=count, limit=limit, expiry=expiry or "N/A")
         
         if len(text) > 4000:
             text = text[:4000] + "\n... (المزيد / More)"
