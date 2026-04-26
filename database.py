@@ -1,18 +1,21 @@
+from urllib.parse import urlparse
 import sqlite3
+import mysql.connector
 import os
 from datetime import datetime, timedelta
 
-db_url = os.getenv("DB_URL", "").strip()
-if not db_url:
-    db_url = "trackly.db"
+url = os.getenv("MYSQL_URL")
 
-db_dir = os.path.dirname(db_url)
-if db_dir:
-    os.makedirs(db_dir, exist_ok=True)
+parsed = urlparse(url)
 
-print(db_url)
+conn = mysql.connector.connect(
+    host=parsed.hostname,
+    user=parsed.username,
+    password=parsed.password,
+    database=parsed.path.lstrip("/"),
+    port=parsed.port
+)
 
-conn = sqlite3.connect(db_url, check_same_thread=False)
 cursor = conn.cursor()
 
 cursor.execute(
