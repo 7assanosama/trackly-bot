@@ -101,5 +101,5 @@ TEXTS = {
         "phone_updated": "✅ Phone number updated successfully!",
         "not_available": "Not available",
         "request_phone": "Welcome! 👋\nPlease share your phone number to create your account and start using the bot. Click the button below 👇",
-    }
+    },
 }
