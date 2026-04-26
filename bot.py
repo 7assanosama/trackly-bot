@@ -91,7 +91,7 @@ if __name__ == "__main__":
     )
     application.add_handler(
         MessageHandler(
-            filters.Regex("^(💎 خطط التسعير|💎 Pricing Plans)$"), plans_command
+            filters.Regex("^(💎 زيادة الروابط|💎 Increase Links)$"), plans_command
         )
     )
     application.add_handler(MessageHandler(filters.CONTACT, contact_handler))
