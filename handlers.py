@@ -37,6 +37,8 @@ def build_menu(lang: str):
 # ================= UI =================
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     lang = get_lang(update, context)
+    user_id = update.effective_chat.id
+    get_user_plan(user_id) # Save user to DB if not exists
     await update.message.reply_text(
         TEXTS[lang]["menu"],
         reply_markup=build_menu(lang)
@@ -139,10 +141,10 @@ async def broadcast_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     prefix = TEXTS[lang]["broadcast_prefix"].format(message=message)
     for u_id in users:
         try:
-            await context.bot.send_message(chat_id=u_id, text=prefix, parse_mode="Markdown")
+            await context.bot.send_message(chat_id=u_id, text=prefix)
             count += 1
-        except Exception:
-            pass
+        except Exception as e:
+            print(f"Failed to send to {u_id}: {e}")
 
     msg = TEXTS[lang]["broadcast_sent"].format(count=count)
     await update.message.reply_text(msg)

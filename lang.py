@@ -42,7 +42,7 @@ TEXTS = {
         "admin_upgrade_msg": "لترقية أي حساب، يرجى كتابة الأمر التالي:\n`/set_plan <user_id> <free/basic/pro>`\n\nمثال:\n`/set_plan 123456 pro`",
         "admin_broadcast_msg": "لإرسال رسالة لجميع المستخدمين، اكتب الأمر التالي متبوعاً بالرسالة:\n`/broadcast <رسالتك هنا>`",
         "broadcast_usage": "❌ يجب كتابة الرسالة بعد الأمر.\nمثال: `/broadcast السلام عليكم`",
-        "broadcast_prefix": "📢 **رسالة إدارية:**\n\n{message}",
+        "broadcast_prefix": "📢 رسالة إدارية:\n\n{message}",
         "broadcast_sent": "✅ تم إرسال الرسالة إلى {count} مستخدم.",
     },
     "en": {
@@ -87,7 +87,7 @@ TEXTS = {
         "admin_upgrade_msg": "To upgrade any account, please write the following command:\n`/set_plan <user_id> <free/basic/pro>`\n\nExample:\n`/set_plan 123456 pro`",
         "admin_broadcast_msg": "To send a message to all users, write the following command followed by the message:\n`/broadcast <your message here>`",
         "broadcast_usage": "❌ You must write a message after the command.\nExample: `/broadcast Hello everyone`",
-        "broadcast_prefix": "📢 **Admin Message:**\n\n{message}",
+        "broadcast_prefix": "📢 Admin Message:\n\n{message}",
         "broadcast_sent": "✅ Message sent to {count} users.",
     }
 }
