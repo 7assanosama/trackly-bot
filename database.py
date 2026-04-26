@@ -21,7 +21,7 @@ cursor.execute(
     """
 CREATE TABLE IF NOT EXISTS links (
     id INTEGER PRIMARY KEY AUTO_INCREMENT,
-    user_id INTEGER,
+    user_id BIGINT,
     url TEXT,
     last_content TEXT
 )
@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS links (
 cursor.execute(
     """
 CREATE TABLE IF NOT EXISTS users (
-    user_id INTEGER PRIMARY KEY,
+    user_id BIGINT PRIMARY KEY,
     plan VARCHAR(255) DEFAULT 'free',
     phone VARCHAR(255) DEFAULT 'غير متوفر',
     max_links INTEGER DEFAULT 1,
@@ -40,6 +40,16 @@ CREATE TABLE IF NOT EXISTS users (
 )
 """
 )
+
+try:
+    cursor.execute("ALTER TABLE users MODIFY user_id BIGINT")
+except mysql.connector.Error:
+    pass
+
+try:
+    cursor.execute("ALTER TABLE links MODIFY user_id BIGINT")
+except mysql.connector.Error:
+    pass
 
 try:
     cursor.execute("ALTER TABLE users ADD COLUMN phone VARCHAR(255) DEFAULT 'غير متوفر'")
