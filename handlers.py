@@ -1,7 +1,7 @@
 from telegram import Update, ReplyKeyboardMarkup, ReplyKeyboardRemove, KeyboardButton, InlineKeyboardMarkup, InlineKeyboardButton
 from telegram.ext import ContextTypes, ConversationHandler
 
-from database import add_link, delete_link, get_user_links, get_user_plan, get_user_link_count, update_user_plan, get_stats, get_all_users
+from database import add_link, delete_link, get_user_links, get_user_plan, get_user_link_count, update_user_plan, get_stats, get_all_users, get_users_info
 from utils import fetch_content
 from lang import TEXTS
 from config import ADMIN_ID
@@ -95,6 +95,7 @@ async def admin_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     lang = get_lang(update, context)
     keyboard = [
         [InlineKeyboardButton(TEXTS[lang]["admin_btn_stats"], callback_data="admin_stats")],
+        [InlineKeyboardButton(TEXTS[lang]["admin_btn_users"], callback_data="admin_users")],
         [InlineKeyboardButton(TEXTS[lang]["admin_btn_upgrade"], callback_data="admin_upgrade")],
         [InlineKeyboardButton(TEXTS[lang]["admin_btn_broadcast"], callback_data="admin_broadcast")]
     ]
@@ -115,6 +116,19 @@ async def admin_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if data == "admin_stats":
         users, links = get_stats()
         text = TEXTS[lang]["admin_stats_msg"].format(users=users, links=links)
+        await query.edit_message_text(text, parse_mode="Markdown")
+        
+    elif data == "admin_users":
+        users_info = get_users_info()
+        text = TEXTS[lang]["admin_users_title"]
+        for uid, plan, count in users_info:
+            plan_map = {"free": TEXTS[lang]["plan_free"], "basic": TEXTS[lang]["plan_basic"], "pro": TEXTS[lang]["plan_pro"]}
+            p_text = plan_map.get(plan, plan)
+            text += TEXTS[lang]["admin_users_row"].format(user_id=uid, plan=p_text, count=count)
+        
+        if len(text) > 4000:
+            text = text[:4000] + "\n... (المزيد / More)"
+            
         await query.edit_message_text(text, parse_mode="Markdown")
         
     elif data == "admin_upgrade":

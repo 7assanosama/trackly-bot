@@ -84,3 +84,13 @@ def get_stats():
 def get_all_users():
     cursor.execute("SELECT user_id FROM users")
     return [row[0] for row in cursor.fetchall()]
+
+
+def get_users_info():
+    cursor.execute("""
+        SELECT u.user_id, u.plan, COUNT(l.id) as link_count
+        FROM users u
+        LEFT JOIN links l ON u.user_id = l.user_id
+        GROUP BY u.user_id
+    """)
+    return cursor.fetchall()
