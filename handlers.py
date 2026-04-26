@@ -49,6 +49,12 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(msg, reply_markup=build_menu(lang), parse_mode="Markdown")
 
 
+async def my_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    user_id = update.effective_user.id
+    msg = f"رقم الـ ID الخاص بك هو:\n`{user_id}`"
+    await update.message.reply_text(msg, parse_mode="Markdown")
+
+
 async def plans_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     lang = get_lang(update, context)
     user_id = update.effective_chat.id
