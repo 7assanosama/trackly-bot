@@ -1,10 +1,11 @@
 from telegram import Update, ReplyKeyboardMarkup, ReplyKeyboardRemove, KeyboardButton, InlineKeyboardMarkup, InlineKeyboardButton
 from telegram.ext import ContextTypes, ConversationHandler
 
-from database import add_link, delete_link, get_user_links, get_user_limit, get_user_link_count, update_user_limit, get_stats, get_all_users, get_users_info, get_user_phone, update_user_phone
+from database import add_link, delete_link, get_user_links, get_user_limit, get_user_link_count, update_user_limit, get_stats, get_all_users, get_users_info, get_user_phone, update_user_phone, get_user_expiry
 from utils import fetch_content
 from lang import TEXTS
 from config import ADMIN_ID
+from datetime import datetime
 
 ADD_LINK, DELETE_LINK = range(2)
 
@@ -66,10 +67,19 @@ async def my_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_id = update.effective_user.id
     user_limit = get_user_limit(user_id)
     links_count = get_user_link_count(user_id)
+    user_expiry = get_user_expiry(user_id)
     user_phone = get_user_phone(user_id)
     if user_phone == 'غير متوفر' or not user_phone:
         user_phone = TEXTS[lang].get("not_available", "غير متوفر")
-    msg = TEXTS[lang]["my_account_info"].format(user_id=user_id, phone=user_phone, count=links_count, limit=user_limit)
+    
+    expiry_text = user_expiry if user_expiry else "غير متوفر"
+    is_expired = False
+    if user_expiry:
+        is_expired = datetime.strptime(user_expiry, "%Y-%m-%d %H:%M:%S") < datetime.now()
+        if is_expired:
+            expiry_text += " (منتهي ❌)" if lang == "ar" else " (Expired ❌)"
+
+    msg = TEXTS[lang]["my_account_info"].format(user_id=user_id, phone=user_phone, count=links_count, limit=user_limit, expiry=expiry_text)
     await update.message.reply_text(msg, parse_mode="Markdown")
 
 
@@ -221,6 +231,11 @@ async def prompt_add_link(update: Update, context: ContextTypes.DEFAULT_TYPE):
     # Check Plan Limit
     user_limit = get_user_limit(user_id)
     links_count = get_user_link_count(user_id)
+
+    user_expiry = get_user_expiry(user_id)
+    if user_expiry and datetime.strptime(user_expiry, "%Y-%m-%d %H:%M:%S") < datetime.now():
+        await update.message.reply_text(TEXTS[lang]["expired_message"], reply_markup=build_menu(lang))
+        return ConversationHandler.END
 
     if links_count >= user_limit:
         await update.message.reply_text(TEXTS[lang]["limit_reached"], reply_markup=build_menu(lang))
