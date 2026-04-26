@@ -2,7 +2,17 @@ import sqlite3
 import os
 from datetime import datetime, timedelta
 
-conn = sqlite3.connect(os.getenv("DB_URL", ""), check_same_thread=False)
+db_url = os.getenv("DB_URL", "").strip()
+if not db_url:
+    db_url = "trackly.db"
+
+db_dir = os.path.dirname(db_url)
+if db_dir:
+    os.makedirs(db_dir, exist_ok=True)
+
+print(db_url)
+
+conn = sqlite3.connect(db_url, check_same_thread=False)
 cursor = conn.cursor()
 
 cursor.execute(
